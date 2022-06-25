@@ -1,0 +1,25 @@
+
+@startuml
+hide empty description
+skinparam LineBackgroundColor #black
+skinparam ArrowColor #black
+skinparam state {
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> #white
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> #white
+}
+state "HelloWorld" as state1<<aslTask>>
+state "CustomErrorFallback" as state2<<aslPass>>
+state "ReservedTypeFallback" as state3<<aslPass>>
+state "CatchAllFallback" as state4<<aslFail>>
+[*] --> state1
+state1 --> [*]
+state1 -[bold,#orange]-> state2
+state1 -[bold,#orange]-> state3
+state1 -[bold,#orange]-> state4
+state2 --> [*]
+state3 --> [*]
+state4 -[bold,#red]-> [*]
+@enduml

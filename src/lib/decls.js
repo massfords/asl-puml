@@ -7,7 +7,7 @@ module.exports = (definition, state_map) => {
         accum.emitted.add(stateName);
         const isContainer = ['Map', 'Parallel'].indexOf(hints.type) !== -1;
         if (isContainer) {
-            accum.lines.push(`state "${stateName}" as state${hints.id} {`)
+            accum.lines.push(`state "${stateName}" as state${hints.id}<<asl${hints.type}>> {`)
             // print this state's children
             state_map.forEach((vv, kk) => {
                 if (vv.parent === stateName) {
@@ -16,7 +16,7 @@ module.exports = (definition, state_map) => {
             });
             accum.lines.push(`}`)
         } else {
-            accum.lines.push(`state "${stateName}" as state${hints.id}`)
+            accum.lines.push(`state "${stateName}" as state${hints.id}<<asl${hints.type}>>`)
         }
     }
 

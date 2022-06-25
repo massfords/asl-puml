@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "asl-validator": "^2.0.0",
+    "commander": "^9.3.0",
     "jsonpath": "^1.1.1"
   }
 }

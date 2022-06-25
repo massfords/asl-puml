@@ -11,7 +11,7 @@ describe("unit tests for generating puml diagrams", () => {
       const definition = loadDefinition("succeed.json");
       const state_map = build_state_map(definition);
       expect(state_map.size).toStrictEqual(1);
-      expect(state_map.get("Hello")).toMatchInlineSnapshot(`
+      expect(fetchAndPrune("Hello", state_map)).toMatchInlineSnapshot(`
         Object {
           "id": 1,
           "parent": null,
@@ -23,21 +23,21 @@ describe("unit tests for generating puml diagrams", () => {
       const definition = loadDefinition("map.json");
       const state_map = build_state_map(definition);
       expect(state_map.size).toStrictEqual(3);
-      expect(state_map.get("Map")).toMatchInlineSnapshot(`
+      expect(fetchAndPrune("Map", state_map)).toMatchInlineSnapshot(`
         Object {
           "id": 1,
           "parent": null,
           "type": "Map",
         }
       `);
-      expect(state_map.get("Final State")).toMatchInlineSnapshot(`
+      expect(fetchAndPrune("Final State", state_map)).toMatchInlineSnapshot(`
         Object {
           "id": 2,
           "parent": null,
-          "type": "Pass",
+          "type": "Succeed",
         }
       `);
-      expect(state_map.get("Wait 20s")).toMatchInlineSnapshot(`
+      expect(fetchAndPrune("Wait 20s", state_map)).toMatchInlineSnapshot(`
         Object {
           "id": 3,
           "parent": "Map",
@@ -52,7 +52,7 @@ describe("unit tests for generating puml diagrams", () => {
       const definition = loadDefinition("succeed.json");
       const state_map = build_state_map(definition);
       const puml = decls(definition, state_map);
-      expect(puml).toStrictEqual('state "Hello" as state1');
+      expect(puml).toStrictEqual('state "Hello" as state1<<aslSucceed>>');
     });
     test("example with map state", () => {
       expect.hasAssertions();
@@ -60,10 +60,10 @@ describe("unit tests for generating puml diagrams", () => {
       const state_map = build_state_map(definition);
       const puml = decls(definition, state_map);
       expect(puml).toMatchInlineSnapshot(`
-        "state \\"Map\\" as state1 {
-        state \\"Wait 20s\\" as state3
+        "state \\"Map\\" as state1<<aslMap>> {
+        state \\"Wait 20s\\" as state3<<aslWait>>
         }
-        state \\"Final State\\" as state2"
+        state \\"Final State\\" as state2<<aslSucceed>>"
       `);
     });
     test("example with nested map state", () => {
@@ -72,29 +72,32 @@ describe("unit tests for generating puml diagrams", () => {
       const state_map = build_state_map(definition);
       const puml = decls(definition, state_map);
       expect(puml).toMatchInlineSnapshot(`
-        "state \\"Map\\" as state1 {
-        state \\"Map2\\" as state3 {
-        state \\"Wait 20s\\" as state4
+        "state \\"Map\\" as state1<<aslMap>> {
+        state \\"Map2\\" as state3<<aslMap>> {
+        state \\"Wait 20s\\" as state4<<aslWait>>
         }
         }
-        state \\"Final State\\" as state2"
+        state \\"Final State\\" as state2<<aslSucceed>>"
       `);
     });
     test.todo("example with parallel state");
   });
 
   describe("generate puml tests", () => {
-    test.each(["map", "nested_maps", "parallel", "succeed"])("%s", (name) => {
-      expect.hasAssertions();
+    test.each(["map", "nested_maps", "parallel", "succeed", "task"])(
+      "%s",
+      (name) => {
+        expect.hasAssertions();
 
-      const definition = loadDefinition(`${name}.json`);
-      const result = asl_to_puml(definition);
-      expect(result.isValid).toBe(true);
-      fs.writeFileSync(
-        path.join(__dirname, "pumls", `${name}.puml`),
-        Buffer.from(result.puml, "utf-8")
-      );
-    });
+        const definition = loadDefinition(`${name}.json`);
+        const result = asl_to_puml(definition);
+        expect(result.isValid).toBe(true);
+        fs.writeFileSync(
+          path.join(__dirname, "pumls", `${name}.puml`),
+          Buffer.from(result.puml, "utf-8")
+        );
+      }
+    );
   });
   const loadDefinition = (name) => {
     const def = JSON.parse(
@@ -105,5 +108,10 @@ describe("unit tests for generating puml diagrams", () => {
       throw Error("test using invalid definition:" + errorsText("\n"));
     }
     return def;
+  };
+
+  const fetchAndPrune = (stateName, map) => {
+    const { json, ...pruned } = map.get(stateName);
+    return pruned;
   };
 });

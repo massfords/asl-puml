@@ -3,7 +3,14 @@
 hide empty description
 skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
-state "Hello" as state1
+skinparam state {
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> #white
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> #white
+}
+state "Hello" as state1<<aslSucceed>>
 [*] --> state1
 state1 --> [*]
 @enduml

@@ -12,16 +12,28 @@ module.exports = (definition, state_map) => {
             jp.query(definition, `$..[\'Next\', \'Default\']`)
                 .forEach((targets) => {
                     targets.forEach((target) => {
-                        lines.push((`state${hints.id} --> state${state_map.get(target).id}`));
+                        const targetHint = state_map.get(target);
+                        lines.push((`state${hints.id} --> state${targetHint.id}`));
                     })
                 });
 
         } else if (hints.json.Next) {
-            lines.push((`state${hints.id} --> state${state_map.get(hints.json.Next).id}`));
+            const targetHint = state_map.get(hints.json.Next);
+            lines.push((`state${hints.id} --> state${targetHint.id}`));
         } else if (hints.json.End && hints.parent === null) {
             lines.push((`state${hints.id} --> [*]`));
-        } else if (['Succeed', 'Fail'].indexOf(hints.type) !== -1) {
+        } else if ('Succeed' === hints.type) {
             lines.push((`state${hints.id} --> [*]`));
+        } else if ('Fail' === hints.type) {
+            lines.push((`state${hints.id} -[bold,#red]-> [*]`));
+        }
+
+        // check for Catch in a Task
+        if (hints.type === 'Task' && hints.json.Catch) {
+            // get the catch exit points
+            hints.json.Catch.forEach((katch) => {
+                lines.push((`state${hints.id} -[bold,#orange]-> state${state_map.get(katch.Next).id}`));
+            })
         }
     });
     // emit transition for each state to global end

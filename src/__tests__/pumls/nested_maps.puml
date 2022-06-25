@@ -3,12 +3,19 @@
 hide empty description
 skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
-state "Map" as state1 {
-state "Map2" as state3 {
-state "Wait 20s" as state4
+skinparam state {
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> #white
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> #white
+}
+state "Map" as state1<<aslMap>> {
+state "Map2" as state3<<aslMap>> {
+state "Wait 20s" as state4<<aslWait>>
 }
 }
-state "Final State" as state2
+state "Final State" as state2<<aslSucceed>>
 [*] --> state1
 state1 --> state2
 state2 --> [*]
