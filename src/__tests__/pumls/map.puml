@@ -1,0 +1,10 @@
+
+@startuml
+hide empty description
+skinparam LineBackgroundColor #black
+skinparam ArrowColor #black
+state "Map" as state1 {
+state "Wait 20s" as state3
+}
+state "Final State" as state2
+@enduml

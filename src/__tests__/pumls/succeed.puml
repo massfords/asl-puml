@@ -1,0 +1,7 @@
+
+@startuml
+hide empty description
+skinparam LineBackgroundColor #black
+skinparam ArrowColor #black
+state "Hello" as state1
+@enduml
