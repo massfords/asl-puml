@@ -3,6 +3,7 @@ const path = require("path");
 const build_state_map = require("../lib/build_state_map");
 const decls = require("../lib/decls");
 const asl_to_puml = require("../asl-puml");
+const aslValidator = require("asl-validator");
 
 describe("unit tests for generating puml diagrams", () => {
   describe("build_state_map", () => {
@@ -96,8 +97,13 @@ describe("unit tests for generating puml diagrams", () => {
     });
   });
   const loadDefinition = (name) => {
-    return JSON.parse(
+    const def = JSON.parse(
       fs.readFileSync(path.join(__dirname, "definitions", name))
     );
+    const { isValid, errorsText } = aslValidator(def);
+    if (!isValid) {
+      throw Error("test using invalid definition:" + errorsText("\n"));
+    }
+    return def;
   };
 });

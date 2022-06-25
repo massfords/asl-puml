@@ -3,6 +3,7 @@ const theme = require("./lib/theme")
 const decls = require("./lib/decls")
 const footer = require("./lib/footer")
 const build_state_map = require("./lib/build_state_map")
+const transitions = require("./lib/transitions");
 
 const asl_to_puml = (definition) => {
     const { isValid, errorsText } = aslValidator(definition);
@@ -18,7 +19,7 @@ const asl_to_puml = (definition) => {
     // - state declarations
     puml += decls(definition, state_map);
     // - state transitions
-    // - grouping for Iterator and Branches so those states are rendered correctly
+    puml += transitions(definition, state_map);
     // - artificial grouping by regex for layout purposes
     // - state rendering by type with color
     // - state rendering by type with icon

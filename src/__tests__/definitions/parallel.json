@@ -1,5 +1,4 @@
 {
-  "Comment": "An example of the Amazon States Language using a parallel state to execute two branches at the same time.",
   "StartAt": "Parallel",
   "States": {
     "Parallel": {
@@ -32,8 +31,7 @@
       ]
     },
     "Final State": {
-      "Type": "Pass",
-      "End": true
+      "Type": "Succeed"
     }
   }
 }

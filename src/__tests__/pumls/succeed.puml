@@ -4,4 +4,6 @@ hide empty description
 skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 state "Hello" as state1
+[*] --> state1
+state1 --> [*]
 @enduml

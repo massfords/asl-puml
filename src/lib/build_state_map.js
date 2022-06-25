@@ -6,7 +6,7 @@ const build_state_map = (definition) => {
     jp.query(definition, '$..[\'States\']')
         .forEach((states) => {
             Object.keys(states).forEach((stateName) => {
-                state_map.set(stateName, {parent: null, type: states[stateName].Type, id});
+                state_map.set(stateName, {parent: null, type: states[stateName].Type, id, json: states[stateName]});
                 id++;
             });
         });

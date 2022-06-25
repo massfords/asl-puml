@@ -1,5 +1,4 @@
 {
-  "Comment": "An example of the Amazon States Language using a map state to map over items in parallel.",
   "StartAt": "Map",
   "States": {
     "Map": {
@@ -26,8 +25,7 @@
       }
     },
     "Final State": {
-      "Type": "Pass",
-      "End": true
+      "Type": "Succeed"
     }
   }
 }

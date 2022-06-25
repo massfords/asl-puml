@@ -9,4 +9,8 @@ state "Pass" as state4
 state "Wait 10s" as state5
 }
 state "Final State" as state2
+[*] --> state1
+state1 --> state2
+state2 --> [*]
+state4 --> state5
 @enduml

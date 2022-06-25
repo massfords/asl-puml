@@ -1,10 +1,7 @@
 {
-    "Comment": "A simple example of the Amazon States Language using Succeed states",
     "StartAt": "Hello",
     "States": {
         "Hello": {
-            "InputPath": "$.input",
-            "OutputPath": "$.output",
             "Type": "Succeed"
         }
     }
