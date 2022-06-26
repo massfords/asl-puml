@@ -8,7 +8,7 @@ const aslValidator = require("asl-validator");
 describe("unit tests for generating puml diagrams", () => {
   describe("build_state_map", () => {
     test("single state", () => {
-      const definition = loadDefinition("succeed.json");
+      const definition = loadDefinition("succeed.asl.json");
       const state_map = build_state_map(definition);
       expect(state_map.size).toStrictEqual(1);
       expect(fetchAndPrune("Hello", state_map)).toMatchInlineSnapshot(`
@@ -20,7 +20,7 @@ describe("unit tests for generating puml diagrams", () => {
       `);
     });
     test("map states", () => {
-      const definition = loadDefinition("map.json");
+      const definition = loadDefinition("map.asl.json");
       const state_map = build_state_map(definition);
       expect(state_map.size).toStrictEqual(3);
       expect(fetchAndPrune("Map", state_map)).toMatchInlineSnapshot(`
@@ -49,14 +49,14 @@ describe("unit tests for generating puml diagrams", () => {
   describe("decls", () => {
     test("smallest example", () => {
       expect.hasAssertions();
-      const definition = loadDefinition("succeed.json");
+      const definition = loadDefinition("succeed.asl.json");
       const state_map = build_state_map(definition);
       const puml = decls(definition, state_map);
       expect(puml).toStrictEqual('state "Hello" as state1<<aslSucceed>>');
     });
     test("example with map state", () => {
       expect.hasAssertions();
-      const definition = loadDefinition("map.json");
+      const definition = loadDefinition("map.asl.json");
       const state_map = build_state_map(definition);
       const puml = decls(definition, state_map);
       expect(puml).toMatchInlineSnapshot(`
@@ -68,7 +68,7 @@ describe("unit tests for generating puml diagrams", () => {
     });
     test("example with nested map state", () => {
       expect.hasAssertions();
-      const definition = loadDefinition("nested_maps.json");
+      const definition = loadDefinition("nested_maps.asl.json");
       const state_map = build_state_map(definition);
       const puml = decls(definition, state_map);
       expect(puml).toMatchInlineSnapshot(`
@@ -84,16 +84,18 @@ describe("unit tests for generating puml diagrams", () => {
   });
 
   describe("generate puml tests", () => {
-    test.each(["map", "nested_maps", "parallel", "succeed", "task"])(
+    const files = fs.readdirSync(path.join(__dirname, 'definitions')).filter((file) => file.endsWith(".asl.json"));
+
+    test.each(files)(
       "%s",
-      (name) => {
+      (filename) => {
         expect.hasAssertions();
 
-        const definition = loadDefinition(`${name}.json`);
+        const definition = loadDefinition(filename);
         const result = asl_to_puml(definition);
         expect(result.isValid).toBe(true);
         fs.writeFileSync(
-          path.join(__dirname, "pumls", `${name}.puml`),
+          path.join(__dirname, "pumls", `${path.parse(filename).name}.puml`),
           Buffer.from(result.puml, "utf-8")
         );
       }
