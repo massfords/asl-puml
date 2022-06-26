@@ -1,0 +1,26 @@
+
+@startuml
+hide empty description
+skinparam LineBackgroundColor #black
+skinparam ArrowColor #black
+skinparam state {
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> #white
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> #white
+}
+state "Build Folder List" as state1<<aslPass>>
+state "Create Default Folders" as state2<<aslMap>> {
+state "Ensure Folder Exists" as state5<<aslTask>>
+}
+state "Get Glue Crawler List" as state3<<aslTask>>
+state "Run Glue Crawlers" as state4<<aslMap>> {
+state "Start Glue Crawler" as state6<<aslTask>>
+}
+[*] --> state1
+state1 --> state2
+state2 --> state3
+state3 --> state4
+state4 --> [*]
+@enduml
