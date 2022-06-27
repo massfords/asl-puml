@@ -1,4 +1,4 @@
-const jp = require('jsonpath');
+const { JSONPath } = require('jsonpath-plus');
 
 module.exports = (definition, state_map) => {
   // start w/ some whitespace
@@ -9,7 +9,7 @@ module.exports = (definition, state_map) => {
   state_map.forEach((hints) => {
     // if it's a choice, there can be multiple Next states plus a Default
     if (hints.type === 'Choice') {
-      jp.query(hints.json, '$..[\'Next\']')
+      JSONPath({ json: hints.json, path: '$..Next' })
         .forEach((target) => {
           const targetHint = state_map.get(target);
           lines.push((`state${hints.id} --> state${targetHint.id}`));

@@ -1,9 +1,9 @@
-const jp = require('jsonpath');
+const { JSONPath } = require('jsonpath-plus');
 
 const build_state_map = (definition) => {
   const state_map = new Map();
   let id = 1;
-  jp.query(definition, '$..[\'States\']')
+  JSONPath({ json: definition, path: '$..States' })
     .forEach((states) => {
       Object.keys(states).forEach((stateName) => {
         state_map.set(stateName, {
@@ -16,7 +16,7 @@ const build_state_map = (definition) => {
   state_map.forEach((value, key) => {
     if (value.type === 'Map') {
       // update the child states
-      jp.query(definition, `$..['States']['${key}'].Iterator.States`)
+      JSONPath({ json: definition, path: `$..['States']['${key}'].Iterator.States` })
         .forEach((states) => {
           Object.keys(states).forEach((stateName) => {
             const child_value = state_map.get(stateName);
@@ -26,9 +26,9 @@ const build_state_map = (definition) => {
     }
     if (value.type === 'Parallel') {
       // update the child states
-      const [branches] = jp.query(definition, `$..['States']['${key}'].Branches`);
+      const [branches] = JSONPath({ json: definition, path: `$..['States']['${key}'].Branches` });
       branches.forEach((branch) => {
-        jp.query(branch, '$.States')
+        JSONPath({ json: branch, path: '$.States' })
           .forEach((states) => {
             Object.keys(states).forEach((stateName) => {
               const child_value = state_map.get(stateName);
