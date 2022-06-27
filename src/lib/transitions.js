@@ -30,7 +30,7 @@ module.exports = (definition, state_map) => {
     }
 
     // check for Catch in a Task
-    if (hints.type === 'Task' && hints.json.Catch) {
+    if (['Task', 'Parallel'].indexOf(hints.type) !== -1 && hints.json.Catch) {
       // get the catch exit points
       hints.json.Catch.forEach((katch) => {
         lines.push((`state${hints.id} -[bold,#orange]-> state${state_map.get(katch.Next).id}`));

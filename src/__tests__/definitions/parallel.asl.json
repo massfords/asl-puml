@@ -4,7 +4,8 @@
     "Parallel": {
       "Type": "Parallel",
       "Next": "Final State",
-      "Branches": [{
+      "Branches": [
+        {
           "StartAt": "Wait 20s",
           "States": {
             "Wait 20s": {
@@ -27,6 +28,14 @@
               "End": true
             }
           }
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Final State"
         }
       ]
     },
