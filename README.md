@@ -11,11 +11,11 @@ Generates a plantuml state diagram from a valid [**Amazon States Language**](htt
 
 ## Example rendering from this plugin
 
-![](/Users/markford/workspace/asl-puml/docs/asl-puml-rendering-demo.asl.png)
+![](./docs/asl-puml-rendering-demo.asl.png)
 
 ## Example rendering from AWS Console / AWS Toolkit
 
-![](/Users/markford/workspace/asl-puml/docs/aws-toolkit-rendering-demo.asl.png)
+![](./docs/aws-toolkit-rendering-demo.asl.png)
 
 A rendering of the step function that matches the rendering from the AWS Development Console is available
 for some IDE's but not all. I've seen support for it in [AWS Toolkit for VS Code](https://aws.amazon.com/visualstudiocode/)
@@ -23,7 +23,7 @@ but not in [AWS Toolkit for Webstorm](https://aws.amazon.com/webstorm/).
 
 ## Example rendering from AWS Workflow Studio
 
-![](/Users/markford/workspace/asl-puml/docs/aws-studio-rendering-demo.asl.png)
+![](./docs/aws-studio-rendering-demo.asl.png)
 
 ## Install
 ```bash
