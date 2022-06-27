@@ -1,0 +1,279 @@
+{
+  "Comment": "Demonstrates the rendering capabilities of asl",
+  "StartAt": "Dispatch by type of item",
+  "States": {
+    "Dispatch by type of item": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.item.product_type",
+          "StringEquals": "WIDGET",
+          "Next": "PrepareFulfillWidgetRequest"
+        },
+        {
+          "Variable": "$.item.product_type",
+          "StringEquals": "ASK",
+          "Next": "PrepareFulfillAskRequest"
+        },
+        {
+          "Variable": "$.item.product_type",
+          "StringEquals": "FUND",
+          "Next": "FulfillFundAccount"
+        }
+      ],
+      "Default": "Error"
+    },
+
+    "PrepareFulfillWidgetRequest": {
+      "Type": "Pass",
+      "Parameters": {
+        "order_id.$": "$.order_id",
+        "customer_id.$": "$.customer_id",
+        "widget_id.$": "$.item.product_id"
+      },
+      "Next": "FulfillWidget",
+      "ResultPath": "$.requests.fulfill_request"
+    },
+    "PrepareFulfillAskRequest": {
+      "Type": "Pass",
+      "Parameters": {
+        "order_id.$": "$.order_id",
+        "customer_id.$": "$.customer_id",
+        "ask_id.$": "$.item.product_id"
+      },
+      "Next": "FulfillAsk",
+      "ResultPath": "$.requests.fulfill_request"
+    },
+
+    "FulfillWidget": {
+      "Type": "Task",
+      "Resource": "${FulfillWidgetArn}",
+      "InputPath": "$.requests.fulfill_request",
+      "ResultPath": "$.outcomes.fulfill",
+      "Next": "MarkOrderAsComplete",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Runtime"
+          ],
+          "Next": "PublishOrderComplete",
+          "ResultPath": "$.fsm.error"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "PublishOrderComplete",
+          "ResultPath": "$.fsm.error"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 5,
+          "BackoffRate": 2
+        }
+      ]
+    },
+    "FulfillAsk": {
+      "Type": "Task",
+      "Resource": "${FulfillAskArn}",
+      "InputPath": "$.requests.fulfill_request",
+      "ResultPath": "$.outcomes.fulfill",
+      "Next": "MarkOrderAsComplete",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Runtime"
+          ],
+          "Next": "PublishCompensate",
+          "ResultPath": "$.fsm.error"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "PublishCompensate",
+          "ResultPath": "$.fsm.error"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 5,
+          "BackoffRate": 2
+        }
+      ]
+    },
+    "FulfillFundAccount": {
+      "Type": "Task",
+      "Resource": "${FulfillFundAccountArn}",
+      "ResultPath": "$.outcomes.fulfill",
+      "Next": "MarkOrderAsComplete",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Runtime"
+          ],
+          "Next": "PublishCompensate",
+          "ResultPath": "$.fsm.error"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "PublishCompensate",
+          "ResultPath": "$.fsm.error"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 5,
+          "BackoffRate": 2
+        }
+      ]
+    },
+
+    "MarkOrderAsComplete": {
+      "Type": "Task",
+      "Resource": "${MarkOrderAsCompleteArn}",
+      "Parameters": {
+        "order_id.$": "$.order_id"
+      },
+      "ResultPath": "$.outcomes.markcomplete",
+      "Next": "PublishOrderComplete",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Runtime"
+          ],
+          "Next": "Error",
+          "ResultPath": "$.fsm.error"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Error",
+          "ResultPath": "$.fsm.error"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 5,
+          "BackoffRate": 2
+        }
+      ]
+    },
+    "Error": {
+      "Type": "Fail"
+    },
+    "PublishOrderComplete": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "DetailType": "order-complete",
+            "Source": "demo-step-function",
+            "EventBusName": "${EventBusName}",
+            "Detail": {
+              "type": "mock-event-with-details-for-order",
+              "order_id.$": "$.order_id"
+            }
+          }
+        ]
+      },
+      "ResultPath": "$.outcomes.publish_complete",
+      "Next": "OrderComplete",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Runtime"
+          ],
+          "Next": "Error",
+          "ResultPath": "$.fsm.error"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Error",
+          "ResultPath": "$.fsm.error"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 5,
+          "BackoffRate": 2
+        }
+      ]
+    },
+    "OrderComplete": {
+      "Type": "Succeed"
+    },
+    "PublishCompensate": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "DetailType": "compensate",
+            "Source": "demo-step-function",
+            "EventBusName": "${EventBusName}",
+            "Detail": {
+              "type": "compensate",
+              "order_id.$": "$.order_id"
+            }
+          }
+        ]
+      },
+      "End": true,
+      "ResultPath": "$.outcomes.compensation",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Runtime"
+          ],
+          "Next": "Error",
+          "ResultPath": "$.fsm.error"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Error",
+          "ResultPath": "$.fsm.error"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 5,
+          "BackoffRate": 2
+        }
+      ]
+    }
+  }
+}

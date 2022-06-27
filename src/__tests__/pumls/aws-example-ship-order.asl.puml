@@ -1,4 +1,3 @@
-
 @startuml
 hide empty description
 skinparam LineBackgroundColor #black
@@ -7,17 +6,20 @@ skinparam state {
     BackgroundColor<<aslFail>> #red
     FontColor<<aslFail>> #white
 
+    BackgroundColor<<aslTask>> #lightblue
+    BackgroundColor<<Compensate>> #orange
+
     BackgroundColor<<aslSucceed>> #green
     FontColor<<aslSucceed>> #white
 }
-state "Validate Input" as state1<<aslChoice>>
+state "Validate Input" as state1<<Choice>>
 state "Get Customer Status" as state2<<aslTask>>
-state "Do Fraud Check" as state3<<aslChoice>>
+state "Do Fraud Check" as state3<<Choice>>
 state "Notify New Order" as state4<<aslTask>>
 state "Reserve Products" as state5<<aslMap>> {
 state "Reserve Product" as state14<<aslTask>>
-state "Choice" as state15<<aslChoice>>
-state "Reservation Successful" as state16<<aslSucceed>>
+state "Choice" as state15<<Choice>>
+state "Reservation Successful" as state16<<aslSucceedLocal>>
 state "Notify Delayed" as state17<<aslTask>>
 state "Wait for availability" as state18<<aslWait>>
 }
@@ -41,15 +43,14 @@ state6 --> state7
 state7 --> state8
 state7 -[bold,#orange]-> state9
 state8 --> state12
-state9 --> state11
-state10 --> state11
-state11 -[bold,#red]-> [*]
+state9 -[#pink]-> state11
+state10 -[#pink]-> state11
+state11 -[#pink]-> [*]
 state12 --> [*]
-state13 --> state11
+state13 -[#pink]-> state11
 state14 --> state15
 state15 --> state17
 state15 --> state16
-state16 --> [*]
 state17 --> state18
 state18 --> state14
 @enduml

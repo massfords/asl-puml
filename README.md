@@ -5,7 +5,19 @@
 
 [![NPM](https://nodei.co/npm/asl-puml.png?stars=true)](https://www.npmjs.com/package/asl-puml)
 
+## What does it do?
+
 Generates a plantuml state diagram from a valid [**Amazon States Language**](https://states-language.net/spec.html) file. 
+
+Example of 
+
+### What about the AWS Toolkit?
+A rendering of the step function that matches the rendering from the AWS Development Console is available
+for some IDE's but not all. I've seen support for it in [AWS Toolkit for VS Code](https://aws.amazon.com/visualstudiocode/)
+but not in [AWS Toolkit for Webstorm](https://aws.amazon.com/webstorm/). 
+
+### Why PlantUML?
+It's a simple syntax and has free plugins for VS Code and JetBrains
 
 ## Install
 ```bash
@@ -60,7 +72,7 @@ npm run lint
 ## See also
 - [ASL specifications](https://states-language.net/spec.html)
 - [ASL documentation on AWS website](http://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
-
+- [PlantUML state diagram documentation](https://plantuml.com/state-diagram)
 
 ## License
 See [LICENSE](./LICENSE).

@@ -1,8 +1,0 @@
-{
-    "StartAt": "Hello",
-    "States": {
-        "Hello": {
-            "Type": "Succeed"
-        }
-    }
-}

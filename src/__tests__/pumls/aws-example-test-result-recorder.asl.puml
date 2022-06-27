@@ -1,4 +1,3 @@
-
 @startuml
 hide empty description
 skinparam LineBackgroundColor #black
@@ -7,12 +6,15 @@ skinparam state {
     BackgroundColor<<aslFail>> #red
     FontColor<<aslFail>> #white
 
+    BackgroundColor<<aslTask>> #lightblue
+    BackgroundColor<<Compensate>> #orange
+
     BackgroundColor<<aslSucceed>> #green
     FontColor<<aslSucceed>> #white
 }
 state "HandleInput" as state1<<aslTask>>
-state "ConfirmRequiredData" as state2<<aslChoice>>
-state "WasSuccessOrFailure" as state3<<aslChoice>>
+state "ConfirmRequiredData" as state2<<Choice>>
+state "WasSuccessOrFailure" as state3<<Choice>>
 state "RecordTestRun-DurationMetric" as state4<<aslTask>>
 state "RecordTestRun-StatusMetric" as state5<<aslTask>>
 state "RecordTestRun-DynamoDB" as state6<<aslTask>>
@@ -21,7 +23,7 @@ state "InvalidInput" as state8<<aslFail>>
 [*] --> state1
 state1 --> state2
 state2 --> state3
-state2 --> state8
+state2 -[#pink]-> state8
 state3 --> state4
 state3 --> state5
 state4 --> state5
@@ -30,5 +32,5 @@ state5 --> state6
 state5 -[bold,#orange]-> state6
 state6 --> state7
 state7 --> [*]
-state8 -[bold,#red]-> [*]
+state8 -[#pink]-> [*]
 @enduml

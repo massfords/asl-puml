@@ -4,18 +4,17 @@ module.exports = (definition, state_map) => {
       return;
     }
     accum.emitted.add(stateName);
-    const isContainer = ['Map', 'Parallel'].indexOf(hints.type) !== -1;
+    const stateDecl = `state "${stateName}" as state${hints.id}${hints.stereotype}`;
+    const isContainer = ['Map', 'Parallel'].indexOf(hints.json.Type) !== -1;
+    const brace = isContainer ? ' {' : '';
+    accum.lines.push(`${stateDecl}${brace}`);
     if (isContainer) {
-      accum.lines.push(`state "${stateName}" as state${hints.id}<<asl${hints.type}>> {`);
-      // print this state's children
       state_map.forEach((vv, kk) => {
         if (vv.parent === stateName) {
           emit_decl(kk, vv, accum);
         }
       });
       accum.lines.push('}');
-    } else {
-      accum.lines.push(`state "${stateName}" as state${hints.id}<<asl${hints.type}>>`);
     }
   };
 

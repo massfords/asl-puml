@@ -1,4 +1,3 @@
-
 @startuml
 hide empty description
 skinparam LineBackgroundColor #black
@@ -7,17 +6,20 @@ skinparam state {
     BackgroundColor<<aslFail>> #red
     FontColor<<aslFail>> #white
 
+    BackgroundColor<<aslTask>> #lightblue
+    BackgroundColor<<Compensate>> #orange
+
     BackgroundColor<<aslSucceed>> #green
     FontColor<<aslSucceed>> #white
 }
-state "confirm_service_name" as state1<<aslChoice>>
+state "confirm_service_name" as state1<<Choice>>
 state "default_service_name" as state2<<aslPass>>
 state "handle_input" as state3<<aslPass>>
 state "get_athena_query" as state4<<aslPass>>
 state "start_athena_query" as state5<<aslTask>>
 state "wait_to_query" as state6<<aslWait>>
 state "get_athena_execution_status" as state7<<aslTask>>
-state "is_query_finished" as state8<<aslChoice>>
+state "is_query_finished" as state8<<Choice>>
 state "get_query_results" as state9<<aslTask>>
 state "prepare_output_success" as state10<<aslPass>>
 [*] --> state1

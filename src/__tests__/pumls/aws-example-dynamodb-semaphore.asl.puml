@@ -1,4 +1,3 @@
-
 @startuml
 hide empty description
 skinparam LineBackgroundColor #black
@@ -7,6 +6,9 @@ skinparam state {
     BackgroundColor<<aslFail>> #red
     FontColor<<aslFail>> #white
 
+    BackgroundColor<<aslTask>> #lightblue
+    BackgroundColor<<Compensate>> #orange
+
     BackgroundColor<<aslSucceed>> #green
     FontColor<<aslSucceed>> #white
 }
@@ -14,7 +16,7 @@ state "Get Lock" as state1<<aslParallel>> {
 state "Acquire Lock" as state5<<aslTask>>
 state "Initialize Lock Item" as state6<<aslTask>>
 state "Get Current Lock Record" as state7<<aslTask>>
-state "Check If Lock Already Acquired" as state8<<aslChoice>>
+state "Check If Lock Already Acquired" as state8<<Choice>>
 state "Continue Because Lock Was Already Acquired" as state9<<aslPass>>
 state "Wait to Get Lock" as state10<<aslWait>>
 }

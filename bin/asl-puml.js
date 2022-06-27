@@ -20,7 +20,7 @@ function fail(message) {
 program
   .version(version, '-v, --version')
   .description('Amazon States Language to PUML')
-  .requiredOption('-i --input <input>', 'path to input')
+  .requiredOption('-i --input <input>', 'path to input file')
   .option('-o --output <output>', 'path to output')
   .parse(process.argv);
 
