@@ -1,5 +1,4 @@
-module.exports = (_definition, _state_map) => {
-    return `
+module.exports = () => `
 @startuml
 hide empty description
 skinparam LineBackgroundColor #black
@@ -11,5 +10,4 @@ skinparam state {
     BackgroundColor<<aslSucceed>> #green
     FontColor<<aslSucceed>> #white
 }
-`
-}
+`;

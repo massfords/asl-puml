@@ -1,5 +1,3 @@
-module.exports = (_definition, _state_map) => {
-    return `
+module.exports = () => `
 @enduml
-`
-}
+`;
