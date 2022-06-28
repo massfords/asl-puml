@@ -57,11 +57,12 @@ $ asl-puml --help
 
   Options:
 
-    -v, --version                       output the version number
-    --json-definition <jsonDefinition>  JSON definition
-    --json-path <jsonPath>              JSON path
-    --silent                            silent mode
-    -h, --help                          output usage information
+Amazon States Language to PUML
+
+Options:
+  -i --input <input>    path to input file
+  -o --output <output>  path to output dir
+  -h, --help            display help for command
 ```
 Return status:
 - `0` if diagram was generated
