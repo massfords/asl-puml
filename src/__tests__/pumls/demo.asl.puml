@@ -25,8 +25,17 @@ state "OrderComplete" as state10<<aslSucceed>>
 state "PublishCompensate" as state11<<Compensate>>
 [*] --> state1
 state1 --> state2
+note on link
+"WIDGET"
+end note
 state1 --> state3
+note on link
+"ASK"
+end note
 state1 --> state6
+note on link
+"FUND"
+end note
 state1 -[#pink]-> state8
 state2 --> state4
 state3 --> state5

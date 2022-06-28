@@ -4,17 +4,37 @@ module.exports = (definition, state_map) => {
   const catchTransitions = new Set();
   // start w/ some whitespace
   const lines = [''];
-  const emit_transition_with_color = (srcHint, targetHint = null, fromCatch = false) => {
+  const emit_transition_with_color = (srcHint, targetHint = null, extraHints = {}) => {
+    const LHS = `state${srcHint.id}`;
+    let transitionLine = null;
+    let RHS = null;
+    const label = (extraHints && extraHints.label) ? extraHints.label : '';
     if (targetHint && targetHint.json.Type === 'Fail') {
-      lines.push((`state${srcHint.id} -[#pink]-> state${targetHint.id}`));
-    } else if (targetHint && fromCatch) {
-      lines.push((`state${srcHint.id} -[bold,#orange]-> state${targetHint.id}`));
+      RHS = `state${targetHint.id}`;
+      transitionLine = '-[#pink]->';
+    } else if (targetHint && extraHints.fromCatch) {
+      RHS = `state${targetHint.id}`;
+      transitionLine = '-[bold,#orange]->';
+    } else if (targetHint && srcHint.json.Type === 'Choice') {
+      RHS = `state${targetHint.id}`;
+      transitionLine = '-->';
     } else if (targetHint) {
-      lines.push((`state${srcHint.id} --> state${targetHint.id}`));
+      RHS = `state${targetHint.id}`;
+      transitionLine = '-->';
     } else if (!targetHint && srcHint.json.Type === 'Fail' && srcHint.parent === null) {
-      lines.push((`state${srcHint.id} -[#pink]-> [*]`));
+      RHS = '[*]';
+      transitionLine = '-[#pink]->';
     } else if (!targetHint && srcHint.parent === null) {
-      lines.push((`state${srcHint.id} --> [*]`));
+      RHS = '[*]';
+      transitionLine = '-->';
+    }
+    if (transitionLine && RHS) {
+      lines.push(`${LHS} ${transitionLine} ${RHS}`);
+      if (label) {
+        lines.push(`note on link
+${label}
+end note`);
+      }
     }
   };
   // emit the head --> start with
@@ -23,10 +43,14 @@ module.exports = (definition, state_map) => {
   state_map.forEach((hints) => {
     // if it's a choice, there can be multiple Next states plus a Default
     if (hints.json.Type === 'Choice') {
-      JSONPath({ json: hints.json, path: '$..Next' })
+      JSONPath({ json: hints.json, path: '$..[*][?(@.Next)]' })
         .forEach((target) => {
-          const targetHint = state_map.get(target);
-          emit_transition_with_color(hints, targetHint);
+          const targetHint = state_map.get(target.Next);
+          let label = '';
+          if (target.StringEquals) {
+            label = `"${target.StringEquals}"`;
+          }
+          emit_transition_with_color(hints, targetHint, { label });
         });
       if (hints.json.Default) {
         const targetHint = state_map.get(hints.json.Default);
@@ -52,11 +76,10 @@ module.exports = (definition, state_map) => {
         if (catchTargetHints.json.Type === 'Fail') {
           lines.push((`state${hints.id} -[#pink]-> state${catchTargetHints.id}`));
         } else {
-          lines.push((`state${hints.id} -[bold,#orange]-> state${catchTargetHints.id}`));
+          emit_transition_with_color(hints, catchTargetHints, { fromCatch: true });
         }
       });
     }
   });
-  // emit transition for each state to global end
   return lines.join('\n');
 };
