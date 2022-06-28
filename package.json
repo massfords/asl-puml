@@ -4,7 +4,7 @@
   "description": "Generates a plant uml file from a valid ASL file",
   "main": "./dist/asl-puml.js",
   "bin": {
-    "asl-puml": "bin/asl-puml.ts"
+    "asl-puml": "./dist/bin/asl-puml.js"
   },
   "scripts": {
     "build": "npx tsc",
