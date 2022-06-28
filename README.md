@@ -39,12 +39,6 @@ The diagrams below show the same step function rendered by:
 | label the path from a catch                                           | yes, with line weight and color                                                                                  | no                                                                                                                               | path is labeled with a Catch                                                                              |
 | label the path to a Fail state                                        | yes, with line weight and color                                                                                  | no                                                                                                                               | no                                                                                                        |
 
-
-
-A rendering of the step function that matches the rendering from the AWS Development Console is available
-for some IDE's but not all. I've seen support for it in 
-but not in . 
-
 ## Install
 ```bash
 # Use via the CLI
