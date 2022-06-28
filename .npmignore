@@ -6,3 +6,5 @@ tmp
 __tests__
 .github
 *.tgz
+*.test.js
+**/*.ts
