@@ -26,7 +26,7 @@ Please provide a complete state machine definition that demonstrates the problem
 **Expected behavior**
 Expected puml file or snippet is helpful.
 
-**Version:** [e.g. 1.0.0, can be found by running `asl-puml --version`]
+**Version:**
 
 **Additional context**
 Add any other context about the problem here.
