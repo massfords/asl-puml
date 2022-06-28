@@ -1,0 +1,56 @@
+@startuml
+hide empty description
+skinparam LineBackgroundColor #black
+skinparam ArrowColor #black
+skinparam state {
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> #white
+
+    BackgroundColor<<aslTask>> #lightblue
+    BackgroundColor<<Compensate>> #orange
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> #white
+}
+state "Dispatch by type of item" as state1<<Choice>>
+state "PrepareFulfillWidgetRequest" as state2<<aslPass>>
+state "PrepareFulfillAskRequest" as state3<<aslPass>>
+state "FulfillWidget" as state4<<aslTask>>
+state "FulfillAsk" as state5<<aslTask>>
+state "FulfillFundAccount" as state6<<aslTask>>
+state "MarkOrderAsComplete" as state7<<aslTask>>
+state "Error" as state8<<aslFail>>
+state "PublishOrderComplete" as state9<<aslTask>>
+state "OrderComplete" as state10<<aslSucceed>>
+state "PublishCompensate" as state11<<Compensate>>
+[*] --> state1
+state1 --> state2
+note on link
+"WIDGET"
+end note
+state1 --> state3
+note on link
+"ASK"
+end note
+state1 --> state6
+note on link
+"FUND"
+end note
+state1 -[#pink]-> state8
+state2 --> state4
+state3 --> state5
+state4 --> state7
+state4 -[bold,#orange]-> state9
+state5 --> state7
+state5 -[bold,#orange]-> state11
+state6 --> state7
+state6 -[bold,#orange]-> state11
+state7 --> state9
+state7 -[#pink]-> state8
+state8 -[#pink]-> [*]
+state9 --> state10
+state9 -[#pink]-> state8
+state10 --> [*]
+state11 --> [*]
+state11 -[#pink]-> state8
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+hide empty description
+skinparam LineBackgroundColor #black
+skinparam ArrowColor #black
+skinparam state {
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> #white
+
+    BackgroundColor<<aslTask>> #lightblue
+    BackgroundColor<<Compensate>> #orange
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> #white
+}
+state "Parallel" as state1<<aslParallel>> {
+state "Wait 20s" as state3<<aslWait>>
+state "Pass" as state4<<aslPass>>
+state "Wait 10s" as state5<<aslWait>>
+}
+state "Final State" as state2<<aslSucceed>>
+[*] --> state1
+state1 --> state2
+state1 -[bold,#orange]-> state2
+state2 --> [*]
+state4 --> state5
+@enduml

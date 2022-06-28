@@ -1,0 +1,11 @@
+extends: airbnb-base
+plugins:
+  - jest
+env:
+  jest/globals: true
+rules:
+  camelcase: off
+
+  no-param-reassign:
+    - error
+    - props: false

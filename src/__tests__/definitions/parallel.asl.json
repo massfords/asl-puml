@@ -1,0 +1,46 @@
+{
+  "StartAt": "Parallel",
+  "States": {
+    "Parallel": {
+      "Type": "Parallel",
+      "Next": "Final State",
+      "Branches": [
+        {
+          "StartAt": "Wait 20s",
+          "States": {
+            "Wait 20s": {
+              "Type": "Wait",
+              "Seconds": 20,
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Pass",
+          "States": {
+            "Pass": {
+              "Type": "Pass",
+              "Next": "Wait 10s"
+            },
+            "Wait 10s": {
+              "Type": "Wait",
+              "Seconds": 10,
+              "End": true
+            }
+          }
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Final State"
+        }
+      ]
+    },
+    "Final State": {
+      "Type": "Succeed"
+    }
+  }
+}
