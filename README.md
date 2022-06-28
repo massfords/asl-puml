@@ -7,23 +7,43 @@
 
 ## What does it do?
 
-Generates a plantuml state diagram from a valid [**Amazon States Language**](https://states-language.net/spec.html) file. 
+Generates a plantuml state diagram from a valid [**Amazon States Language**](https://states-language.net/spec.html) file.
 
-## Example rendering from this plugin
+## But why? There's already good tooling from AWS.
 
-![](./docs/asl-puml-rendering-demo.asl.png)
+The existing tools are good but I'm looking for a simpler rendering that encodes a little more info than the AWS Toolkit. 
 
-## Example rendering from AWS Console / AWS Toolkit
+I also do all of my development in an IDE and don't want to switch to the browser based AWS Workflow Studio. 
 
-![](./docs/aws-toolkit-rendering-demo.asl.png)
+## Example step function
+
+See `__tests__/Definitions/demo.asl.json` for the step function used for these examples.
+
+The diagrams below show the same step function rendered by:
+- asl-puml (this library)
+- AWS Toolkit
+- AWS Workflow Studio
+
+## Feature comparison 
+
+| <br/><br/><br/>Feature or Style                                       | asl-puml                                                                                                         | AWS Toolkit                                                                                                                      | AWS Workflow Studio                                                                                       |
+|-----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| renders the step function as a state diagram                          | ![Diagram of the step function in the style of a PlantUML State Diagram](./docs/asl-puml-rendering-demo.asl.png) | ![shows state machine rendered by AWS Toolkit with generic rendering for every state](./docs/aws-toolkit-rendering-demo.asl.png) | ![shows state machine in workflow studio with colors and icons](./docs/aws-studio-rendering-demo.asl.png) |
+| diagram matches the style seen in AWS Console for instance executions | no                                                                                                               | yes                                                                                                                              | no                                                                                                        |
+| renders the step function within Webstorm or other JetBrains products | yes, via the existing plantuml plugin                                                                            | no, not in [AWS Toolkit for Webstorm](https://aws.amazon.com/webstorm/)                                                          | no                                                                                                        |
+| renders the step function within VS Code                              | yes, via the existing plantuml plugin                                                                            | yes, available in [AWS Toolkit for VS Code](https://aws.amazon.com/visualstudiocode/)                                            | no                                                                                                        |
+| conveys the behavior for the state                                    | yes, via colors and some icons                                                                                   | no                                                                                                                               | yes, very familiar AWS icons and colors.                                                                  |
+| avoid drawing duplicate paths to reduce clutter (catches)             | yes                                                                                                              | yes                                                                                                                              | no, all paths are drawn                                                                                   |
+| identify the compensate path                                          | yes, albeit hard coded by state name regex                                                                       | no                                                                                                                               | no                                                                                                        |
+| label the state transition if conditional                             | yes, limited support with StringEquals                                                                           | no                                                                                                                               | yes, expression is shown in a note on the line                                                            |
+| label the path from a catch                                           | yes, with line weight and color                                                                                  | no                                                                                                                               | path is labeled with a Catch                                                                              |
+| label the path to a Fail state                                        | yes, with line weight and color                                                                                  | no                                                                                                                               | no                                                                                                        |
+
+
 
 A rendering of the step function that matches the rendering from the AWS Development Console is available
-for some IDE's but not all. I've seen support for it in [AWS Toolkit for VS Code](https://aws.amazon.com/visualstudiocode/)
-but not in [AWS Toolkit for Webstorm](https://aws.amazon.com/webstorm/). 
-
-## Example rendering from AWS Workflow Studio
-
-![](./docs/aws-studio-rendering-demo.asl.png)
+for some IDE's but not all. I've seen support for it in 
+but not in . 
 
 ## Install
 ```bash
