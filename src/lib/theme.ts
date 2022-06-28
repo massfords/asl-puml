@@ -1,4 +1,7 @@
-module.exports = () => `@startuml
+import { PumlBuilder } from "./types";
+
+export const theme: PumlBuilder = (): string => {
+  return `@startuml
 hide empty description
 skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
@@ -13,3 +16,4 @@ skinparam state {
     FontColor<<aslSucceed>> #white
 }
 `;
+};
