@@ -5,3 +5,4 @@ docs
 tmp
 __tests__
 .github
+*.tgz
