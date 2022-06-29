@@ -3,17 +3,14 @@ import fs from "fs";
 import path from "path";
 import { asl_to_puml } from "../asl-puml";
 import { must } from "../lib/assertions";
+import { aslValidator } from "../lib/validator";
 
 describe("unit tests for generating puml diagrams", () => {
   const loadDefinition = (name: string): AslDefinition => {
-    // noinspection UnnecessaryLocalVariableJS
     const def: AslDefinition = JSON.parse(
       fs.readFileSync(path.join(__dirname, "definitions", name), "utf-8")
     ) as AslDefinition;
-    // const { isValid, errorsText } = validator(def);
-    // if (!isValid) {
-    //   throw Error(`test using invalid definition:${errorsText('\n')}`);
-    // }
+    aslValidator(def);
     return def;
   };
 
