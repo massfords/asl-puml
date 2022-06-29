@@ -11,7 +11,7 @@ Generates a plantuml state diagram from a valid [**Amazon States Language**](htt
 
 ## But why? There's already good tooling from AWS.
 
-The existing tools are good but I'm looking for a simpler rendering that encodes a little more info than the AWS Toolkit. 
+The existing tools are good, but I'm looking for a simpler rendering that encodes a little more info than the AWS Toolkit. 
 
 I also do all of my development in an IDE and don't want to switch to the browser based AWS Workflow Studio. 
 
@@ -26,18 +26,28 @@ The diagrams below show the same step function rendered by:
 
 ## Feature comparison 
 
-| <br/><br/><br/>Feature or Style                                       | asl-puml                                                                                                         | AWS Toolkit                                                                                                                      | AWS Workflow Studio                                                                                       |
+| <br/><br/><br/>Feature or Style Requirement                           | asl-puml                                                                                                         | AWS Toolkit                                                                                                                      | AWS Workflow Studio                                                                                       |
 |-----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
 | renders the step function as a state diagram                          | ![Diagram of the step function in the style of a PlantUML State Diagram](./docs/asl-puml-rendering-demo.asl.png) | ![shows state machine rendered by AWS Toolkit with generic rendering for every state](./docs/aws-toolkit-rendering-demo.asl.png) | ![shows state machine in workflow studio with colors and icons](./docs/aws-studio-rendering-demo.asl.png) |
+| conveys the behavior for the state                                    | :white_check_mark:, via colors and some icons                                                                    | :x:                                                                                                                              | :white_check_mark:, very familiar AWS icons and colors.                                                   |
 | diagram matches the style seen in AWS Console for instance executions | :x:                                                                                                              | :white_check_mark:                                                                                                               | :x:                                                                                                       |
 | renders the step function within Webstorm or other JetBrains products | :white_check_mark:, via the existing plantuml plugin                                                             | :x:, not in [AWS Toolkit for Webstorm](https://aws.amazon.com/webstorm/)                                                         | :x:                                                                                                       |
 | renders the step function within VS Code                              | :white_check_mark:, via the existing plantuml plugin                                                             | :white_check_mark:, available in [AWS Toolkit for VS Code](https://aws.amazon.com/visualstudiocode/)                             | :x:                                                                                                       |
-| conveys the behavior for the state                                    | :white_check_mark:, via colors and some icons                                                                    | :x:                                                                                                                              | :white_check_mark:, very familiar AWS icons and colors.                                                   |
-| avoid drawing duplicate paths to reduce clutter (catches)             | :white_check_mark:                                                                                               | :white_check_mark:                                                                                                               | :x:, all paths are drawn                                                                                  |
-| identify the compensate path                                          | :white_check_mark:, albeit hard coded by state name regex                                                        | :x:                                                                                                                              | :x:                                                                                                       |
-| label the state transition if conditional                             | :white_check_mark:, limited support with StringEquals                                                            | :x:                                                                                                                              | :white_check_mark:, expression is shown in a note on the line                                             |
 | label the path from a catch                                           | :white_check_mark:, with line weight and color                                                                   | :x:                                                                                                                              | :white_check_mark:, path is labeled with a Catch                                                          |
 | label the path to a Fail state                                        | :white_check_mark:, with line weight and color                                                                   | :x:                                                                                                                              | :x:                                                                                                       |
+| identify the compensation path (see description below)                | :white_check_mark:, albeit hard coded by state name regex                                                        | :x:                                                                                                                              | :x:                                                                                                       |
+| label the state transition if conditional                             | :white_check_mark:, limited support with StringEquals                                                            | :x:                                                                                                                              | :white_check_mark:, expression is shown in a note on the line                                             |
+| avoid drawing duplicate paths to reduce clutter (catches)             | :white_check_mark:                                                                                               | :white_check_mark:                                                                                                               | :x:, all paths are drawn                                                                                  |
+
+### Compensation Path
+The term "compensate" is borrowed from [business processes](http://docs.oasis-open.org/wsbpel/2.0/OS/wsbpel-v2.0-OS.html#_Toc164738526) where it refers to the undoing of work as part of handling a fault.
+
+When reviewing a process, it's useful to identify which parts of the process are in service of the happy path 
+versus those in the compensation path.
+
+Currently, the library uses a regex to match on the state's name to decide if it's in the compensation path. This will
+be made configurable as part of the theme. There isn't a good way to determine the compensation path without hints from
+the config. 
 
 ## Install
 ```bash
