@@ -16,6 +16,9 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://npm.pkg.github.com'
       - run: npm ci
+      - run: npm build
+      - run: npm lint
+      - run: npm test
       - run: npm pack .
       - run: npm publish --dryrun
         env:
