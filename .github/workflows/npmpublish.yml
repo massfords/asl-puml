@@ -20,6 +20,6 @@ jobs:
       - run: npm run lint
       - run: npm run test
       - run: npm pack .
-      - run: npm publish --dryrun
+      - run: npm publish --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
