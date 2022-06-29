@@ -52,8 +52,5 @@
     "asl-validator": "^2.2.0",
     "commander": "^9.3.0",
     "jsonpath-plus": "^7.0.0"
-  },
-  "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
   }
 }
