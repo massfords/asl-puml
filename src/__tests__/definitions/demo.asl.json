@@ -50,7 +50,7 @@
       "Resource": "${FulfillWidgetArn}",
       "InputPath": "$.requests.fulfill_request",
       "ResultPath": "$.outcomes.fulfill",
-      "Next": "MarkOrderAsComplete",
+      "Next": "MarkOrderAsFulfilled",
       "Catch": [
         {
           "ErrorEquals": [
@@ -83,7 +83,7 @@
       "Resource": "${FulfillAskArn}",
       "InputPath": "$.requests.fulfill_request",
       "ResultPath": "$.outcomes.fulfill",
-      "Next": "MarkOrderAsComplete",
+      "Next": "MarkOrderAsFulfilled",
       "Catch": [
         {
           "ErrorEquals": [
@@ -115,7 +115,7 @@
       "Type": "Task",
       "Resource": "${FulfillFundAccountArn}",
       "ResultPath": "$.outcomes.fulfill",
-      "Next": "MarkOrderAsComplete",
+      "Next": "MarkOrderAsFulfilled",
       "Catch": [
         {
           "ErrorEquals": [
@@ -144,9 +144,9 @@
       ]
     },
 
-    "MarkOrderAsComplete": {
+    "MarkOrderAsFulfilled": {
       "Type": "Task",
-      "Resource": "${MarkOrderAsCompleteArn}",
+      "Resource": "${MarkOrderAsFulfilledArn}",
       "Parameters": {
         "order_id.$": "$.order_id"
       },
@@ -199,7 +199,7 @@
         ]
       },
       "ResultPath": "$.outcomes.publish_complete",
-      "Next": "OrderComplete",
+      "End": true,
       "Catch": [
         {
           "ErrorEquals": [
@@ -226,9 +226,6 @@
           "BackoffRate": 2
         }
       ]
-    },
-    "OrderComplete": {
-      "Type": "Succeed"
     },
     "PublishCompensate": {
       "Type": "Task",
