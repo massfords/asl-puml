@@ -1,16 +1,25 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
-    BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
 
-    BackgroundColor<<aslTask>> #lightblue
-    BackgroundColor<<Compensate>> #orange
+    BackgroundColor<<Choice>> #whitesmoke
+    FontColor<<Choice>> automatic
+
+    BackgroundColor<<aslParallel>> #whitesmoke
+
+    BackgroundColor<<aslPass>> #whitesmoke
+    FontColor<<aslPass>> automatic
 
     BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
+    FontColor<<aslSucceed>> automatic
+
+    BackgroundColor<<aslTask>> #lightblue
+    FontColor<<aslTask>> automatic
+
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
 }
 state "Get Lock" as state1<<aslParallel>> {
 state "Acquire Lock" as state5<<aslTask>>

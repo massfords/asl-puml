@@ -1,11 +1,19 @@
 import { JSONPath } from "jsonpath-plus";
-import { AslChoiceTransitionNode, PumlBuilder, StateHints } from "./types";
-import { assertStateHints } from "./build_state_map";
+import {
+  AslChoiceTransitionNode,
+  LineConfig,
+  PumlBuilder,
+  StateHints,
+} from "./types";
+import { assertStateHints } from "./assertions";
 
-export const transitions: PumlBuilder = (definition, state_map) => {
+export const transitions: PumlBuilder = (definition, state_map, config) => {
   const catchTransitions = new Set();
   // start w/ some whitespace
   const lines = [""];
+  const lineFromStyle = (lineConfig: LineConfig): string => {
+    return `-[${lineConfig.bold ? "bold," : ""}${lineConfig.color}]->`;
+  };
   const emit_transition_with_color = (args: {
     srcHint: StateHints;
     targetHint?: StateHints | null;
@@ -18,10 +26,10 @@ export const transitions: PumlBuilder = (definition, state_map) => {
     const label = extraHints && extraHints.label ? extraHints.label : "";
     if (targetHint && targetHint.json.Type === "Fail") {
       RHS = `state${targetHint.id}`;
-      transitionLine = "-[#pink]->";
+      transitionLine = lineFromStyle(config.theme.lines.toFail);
     } else if (targetHint && extraHints?.fromCatch) {
       RHS = `state${targetHint.id}`;
-      transitionLine = "-[bold,#orange]->";
+      transitionLine = lineFromStyle(config.theme.lines.fromCatch);
     } else if (targetHint && srcHint.json.Type === "Choice") {
       RHS = `state${targetHint.id}`;
       transitionLine = "-->";
@@ -34,7 +42,7 @@ export const transitions: PumlBuilder = (definition, state_map) => {
       srcHint.parent === null
     ) {
       RHS = "[*]";
-      transitionLine = "-[#pink]->";
+      transitionLine = lineFromStyle(config.theme.lines.toFail);
     } else if (!targetHint && srcHint.parent === null) {
       RHS = "[*]";
       transitionLine = "-->";
@@ -103,7 +111,11 @@ end note`);
         const catchTargetHints = state_map.get(katch.Next);
         assertStateHints(catchTargetHints);
         if (catchTargetHints.json.Type === "Fail") {
-          lines.push(`state${hints.id} -[#pink]-> state${catchTargetHints.id}`);
+          lines.push(
+            `state${hints.id} ${lineFromStyle(
+              config.theme.lines.toFail
+            )} state${catchTargetHints.id}`
+          );
         } else {
           emit_transition_with_color({
             srcHint: hints,

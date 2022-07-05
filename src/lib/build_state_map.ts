@@ -1,23 +1,22 @@
 import { JSONPath } from "jsonpath-plus";
-import { AslStatesNode, AslStateType, StateHints, StateName } from "./types";
+import {
+  AslStatesNode,
+  AslStateType,
+  Config,
+  StateHints,
+  StateName,
+} from "./types";
+import { assertStateHints } from "./assertions";
 
-export type AssertStateHints = (
-  stateHints?: StateHints | null
-) => asserts stateHints;
-export const assertStateHints: AssertStateHints = (
-  stateHints: StateHints | null | undefined
-): asserts stateHints => {
-  if (!stateHints) {
-    throw Error(`state not found`);
-  }
-};
-
-const compute_stereotype = (stateName: StateName, hints: StateHints) => {
+const compute_stereotype = (
+  stateName: StateName,
+  hints: StateHints,
+  config: Config
+) => {
   if (hints.json.Type === AslStateType.Choice) {
     return "<<Choice>>";
   }
-  // todo - move this to a config
-  const compensatePattern = /compensate/iu;
+  const compensatePattern = new RegExp(config.theme.compensation.pattern, "iu");
   if (compensatePattern.test(stateName)) {
     return "<<Compensate>>";
   }
@@ -29,7 +28,8 @@ const compute_stereotype = (stateName: StateName, hints: StateHints) => {
 };
 
 export const build_state_map = (
-  definition: Record<string, unknown>
+  definition: Record<string, unknown>,
+  config: Config
 ): Map<StateName, StateHints> => {
   const state_map = new Map<StateName, StateHints>();
   let id = 1;
@@ -62,7 +62,11 @@ export const build_state_map = (
           const child_value = state_map.get(stateName);
           assertStateHints(child_value);
           child_value.parent = key;
-          child_value.stereotype = compute_stereotype(stateName, child_value);
+          child_value.stereotype = compute_stereotype(
+            stateName,
+            child_value,
+            config
+          );
         });
       });
     }
@@ -90,7 +94,7 @@ export const build_state_map = (
   });
 
   state_map.forEach((hints, stateName) => {
-    hints.stereotype = compute_stereotype(stateName, hints);
+    hints.stereotype = compute_stereotype(stateName, hints, config);
   });
 
   return state_map;

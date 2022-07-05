@@ -1,4 +1,4 @@
-import { AslDefinition } from "../lib/types";
+import { AslDefinition, DefaultConfig } from "../lib/types";
 import fs from "fs";
 import path from "path";
 import { asl_to_puml } from "../asl-puml";
@@ -14,7 +14,7 @@ describe("unit tests for generating puml diagrams", () => {
     return def;
   };
 
-  describe("generate puml tests", () => {
+  describe("generate pumls", () => {
     const files = fs
       .readdirSync(path.join(__dirname, "definitions"))
       .filter((file) => file.endsWith(".asl.json"));
@@ -23,7 +23,12 @@ describe("unit tests for generating puml diagrams", () => {
       expect.hasAssertions();
 
       const definition = loadDefinition(filename);
-      const result = asl_to_puml(definition);
+      const result = asl_to_puml(definition, DefaultConfig);
+      if (!result.isValid) {
+        // the generates are expected to work
+        // this provides better insight into why it failed
+        expect(result.message).toBeFalsy();
+      }
       expect(result.isValid).toBe(true);
       must(result.isValid);
       const expected = fs.readFileSync(
@@ -31,6 +36,10 @@ describe("unit tests for generating puml diagrams", () => {
         "utf-8"
       );
       expect(result.puml).toStrictEqual(expected);
+      // fs.writeFileSync(
+      //   path.join(__dirname, "pumls", `${path.parse(filename).name}.puml`),
+      //   result.puml
+      // );
     });
   });
 });

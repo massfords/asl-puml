@@ -1,0 +1,140 @@
+{
+  "$id": "https://github.com/massfords/asl-puml#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "$defs": {
+    "color": {
+      "type": "string",
+      "pattern": "^#([a-zA-Z]+)|[\\da-fA-F]{2,6}$"
+    },
+    "compensation": {
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "type": "string"
+        },
+        "color": {
+          "$ref": "#/$defs/color"
+        }
+      },
+      "required": ["pattern", "color"],
+      "additionalProperties": false
+    },
+    "line": {
+      "type": "object",
+      "required": ["color"],
+      "properties": {
+        "bold": {
+          "enum": [
+            true
+          ]
+        },
+        "color": {
+          "$ref": "#/$defs/color"
+        }
+      },
+      "additionalProperties": false
+    },
+    "state": {
+      "type": "object",
+      "required": ["BackgroundColor"],
+      "properties": {
+        "BackgroundColor": {
+          "$ref": "#/$defs/color"
+        },
+        "FontColor": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/color"
+            },
+            {
+              "enum": ["automatic"]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "containerState": {
+      "type": "object",
+      "required": ["BackgroundColor"],
+      "properties": {
+        "BackgroundColor": {
+          "$ref": "#/$defs/color"
+        }
+      },
+      "additionalProperties": false
+    },
+    "theme": {
+      "type": "object",
+      "required": ["compensation", "lines", "skinparams", "states"],
+      "properties": {
+        "compensation": {
+          "$ref": "#/$defs/compensation"
+        },
+        "lines": {
+          "type": "object",
+          "required": ["fromCatch", "toFail"],
+          "properties": {
+            "fromCatch": {
+              "$ref": "#/$defs/line"
+            },
+            "toFail": {
+              "$ref": "#/$defs/line"
+            }
+          },
+          "additionalProperties": false
+        },
+        "skinparams": {
+          "type": "object",
+          "required": ["ArrowColor"],
+          "properties": {
+            "ArrowColor": {
+              "$ref": "#/$defs/color"
+            }
+          },
+          "additionalProperties": false
+        },
+        "states": {
+          "type": "object",
+          "required": ["Pass", "Task", "Choice", "Wait", "Succeed", "Fail", "Parallel", "Map"],
+          "properties": {
+            "Pass": {
+              "$ref": "#/$defs/state"
+            },
+            "Task": {
+              "$ref": "#/$defs/state"
+            },
+            "Choice": {
+              "$ref": "#/$defs/state"
+            },
+            "Wait": {
+              "$ref": "#/$defs/state"
+            },
+            "Succeed": {
+              "$ref": "#/$defs/state"
+            },
+            "Fail": {
+              "$ref": "#/$defs/state"
+            },
+            "Parallel": {
+              "$ref": "#/$defs/state"
+            },
+            "Map": {
+              "$ref": "#/$defs/state"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "theme": {
+      "$ref": "#/$defs/theme"
+    }
+  },
+  "required": ["theme"],
+  "additionalProperties": false
+}

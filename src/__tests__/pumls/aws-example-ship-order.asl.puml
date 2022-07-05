@@ -1,16 +1,25 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
-    BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
 
-    BackgroundColor<<aslTask>> #lightblue
-    BackgroundColor<<Compensate>> #orange
+    BackgroundColor<<Choice>> #whitesmoke
+    FontColor<<Choice>> automatic
+
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> automatic
+
+    BackgroundColor<<aslMap>> #whitesmoke
 
     BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
+    FontColor<<aslSucceed>> automatic
+
+    BackgroundColor<<aslTask>> #lightblue
+    FontColor<<aslTask>> automatic
+
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
 }
 state "Validate Input" as state1<<Choice>>
 state "Get Customer Status" as state2<<aslTask>>

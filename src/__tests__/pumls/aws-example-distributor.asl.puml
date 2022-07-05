@@ -1,16 +1,16 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
-    BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
+
+    BackgroundColor<<Choice>> #whitesmoke
+    FontColor<<Choice>> automatic
+
+    BackgroundColor<<aslMap>> #whitesmoke
 
     BackgroundColor<<aslTask>> #lightblue
+    FontColor<<aslTask>> automatic
     BackgroundColor<<Compensate>> #orange
-
-    BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
 }
 state "ProcessPayload" as state1<<aslTask>>
 state "RecurseIfRequired" as state2<<Choice>>
