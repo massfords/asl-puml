@@ -1,16 +1,16 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
-    BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
 
-    BackgroundColor<<aslTask>> #lightblue
-    BackgroundColor<<Compensate>> #orange
+    BackgroundColor<<aslMap>> #whitesmoke
 
     BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
+    FontColor<<aslSucceed>> automatic
+
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
 }
 state "Map" as state1<<aslMap>> {
 state "Map2" as state3<<aslMap>> {

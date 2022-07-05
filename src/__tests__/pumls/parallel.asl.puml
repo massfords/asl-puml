@@ -1,16 +1,19 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
-    BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
 
-    BackgroundColor<<aslTask>> #lightblue
-    BackgroundColor<<Compensate>> #orange
+    BackgroundColor<<aslParallel>> #whitesmoke
+
+    BackgroundColor<<aslPass>> #whitesmoke
+    FontColor<<aslPass>> automatic
 
     BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
+    FontColor<<aslSucceed>> automatic
+
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
 }
 state "Parallel" as state1<<aslParallel>> {
 state "Wait 20s" as state3<<aslWait>>

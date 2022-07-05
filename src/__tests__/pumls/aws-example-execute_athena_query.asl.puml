@@ -1,16 +1,20 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
-    BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
+
+    BackgroundColor<<Choice>> #whitesmoke
+    FontColor<<Choice>> automatic
+
+    BackgroundColor<<aslPass>> #whitesmoke
+    FontColor<<aslPass>> automatic
 
     BackgroundColor<<aslTask>> #lightblue
-    BackgroundColor<<Compensate>> #orange
+    FontColor<<aslTask>> automatic
 
-    BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
 }
 state "confirm_service_name" as state1<<Choice>>
 state "default_service_name" as state2<<aslPass>>

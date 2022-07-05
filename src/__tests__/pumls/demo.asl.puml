@@ -1,16 +1,20 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
+
+    BackgroundColor<<Choice>> #whitesmoke
+    FontColor<<Choice>> automatic
+
     BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
+    FontColor<<aslFail>> automatic
+
+    BackgroundColor<<aslPass>> #whitesmoke
+    FontColor<<aslPass>> automatic
 
     BackgroundColor<<aslTask>> #lightblue
+    FontColor<<aslTask>> automatic
     BackgroundColor<<Compensate>> #orange
-
-    BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
 }
 state "Dispatch by type of item" as state1<<Choice>>
 state "PrepareFulfillWidgetRequest" as state2<<aslPass>>

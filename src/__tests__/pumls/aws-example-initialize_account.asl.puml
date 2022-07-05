@@ -1,16 +1,16 @@
 @startuml
 hide empty description
-skinparam LineBackgroundColor #black
 skinparam ArrowColor #black
 skinparam state {
-    BackgroundColor<<aslFail>> #red
-    FontColor<<aslFail>> #white
+
+    BackgroundColor<<aslMap>> #whitesmoke
+
+    BackgroundColor<<aslPass>> #whitesmoke
+    FontColor<<aslPass>> automatic
 
     BackgroundColor<<aslTask>> #lightblue
+    FontColor<<aslTask>> automatic
     BackgroundColor<<Compensate>> #orange
-
-    BackgroundColor<<aslSucceed>> #green
-    FontColor<<aslSucceed>> #white
 }
 state "Build Folder List" as state1<<aslPass>>
 state "Create Default Folders" as state2<<aslMap>> {
