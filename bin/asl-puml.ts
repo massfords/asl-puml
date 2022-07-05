@@ -5,7 +5,11 @@ import path from "path";
 import { program } from "commander";
 
 import { asl_to_puml } from "../src/asl-puml";
-import { AslDefinition, DefaultConfig } from "../src/lib/types";
+import {
+  AslDefinition,
+  DefaultConfig,
+  UserSpecifiedConfig,
+} from "../src/lib/types";
 
 function doneValid() {
   process.exit(0);
@@ -21,17 +25,22 @@ program
   .description("Amazon States Language to PUML")
   .requiredOption("-i --input <input>", "path to input file")
   .option("-o --output <output>", "path to output")
+  .option("-c --config <config>", "path to config file")
   .parse(process.argv);
 
 try {
   const opts: {
     input: string;
     output?: string;
+    config?: string;
   } = program.opts();
   const definition: AslDefinition = JSON.parse(
     fs.readFileSync(opts.input, "utf-8")
   ) as AslDefinition;
-  const response = asl_to_puml(definition, DefaultConfig);
+  const config: UserSpecifiedConfig = opts.config
+    ? (JSON.parse(fs.readFileSync(opts.config, "utf-8")) as UserSpecifiedConfig)
+    : DefaultConfig;
+  const response = asl_to_puml(definition, config);
   if (response.isValid) {
     const dir = opts.output
       ? path.parse(opts.output).base

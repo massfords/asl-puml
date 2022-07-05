@@ -9,7 +9,7 @@ import { toConfig } from "./lib/config";
 
 export const asl_to_puml = (
   definition: AslDefinition,
-  userSpecifiedConfig: UserSpecifiedConfig
+  userSpecifiedConfig?: UserSpecifiedConfig
 ): { isValid: true; puml: string } | { isValid: false; message: string } => {
   aslValidator(definition);
 

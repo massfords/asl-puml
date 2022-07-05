@@ -49,6 +49,60 @@ Currently, the library uses a regex to match on the state's name to decide if it
 be made configurable as part of the theme. There isn't a good way to determine the compensation path without hints from
 the config. 
 
+### Configuration
+
+A user supplied file that conforms to the config-schema.json type can be provided to control the diagram theme.
+
+```json
+{
+  "theme": {
+    "skinparams": {
+      "ArrowColor": "#black"
+    },
+    "states": {
+      "Pass": {
+        "BackgroundColor": "#whitesmoke"
+      },
+      "Map": {
+        "BackgroundColor": "#whitesmoke"
+      },
+      "Choice": {
+        "BackgroundColor": "#whitesmoke"
+      },
+      "Parallel": {
+        "BackgroundColor": "#whitesmoke"
+      },
+      "Wait": {
+        "BackgroundColor": "#whitesmoke"
+      },
+      "Task": {
+        "BackgroundColor": "#lightblue"
+      },
+      "Fail": {
+        "BackgroundColor": "#red"
+      },
+      "Succeed": {
+        "BackgroundColor": "#green"
+      }
+    },
+    "lines": {
+      "fromCatch": {
+        "bold": true,
+        "color": "#orange"
+      },
+      "toFail": {
+        "color": "#pink"
+      }
+    },
+    "compensation": {
+      "pattern": "^.*(compensate).*$",
+      "color": "#orange"
+    }
+  }
+}
+
+```
+
 ## Install
 ```bash
 # Use via the CLI
@@ -72,6 +126,7 @@ Amazon States Language to PUML
 Options:
   -i --input <input>    path to input file
   -o --output <output>  path to output dir
+  -c --config <config>  path to config file
   -h, --help            display help for command
 ```
 Return status:
@@ -88,16 +143,6 @@ if (isValid) {
 } else {
   console.error(message);
 }
-```
-
-## Test
-```bash
-npm run test
-```
-
-## Lint
-```bash
-npm run lint
 ```
 
 ## See also
