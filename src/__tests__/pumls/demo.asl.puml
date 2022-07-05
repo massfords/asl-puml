@@ -16,12 +16,14 @@ skinparam state {
     FontColor<<aslTask>> automatic
     BackgroundColor<<Compensate>> #orange
 }
-state "Dispatch by type of item" as state1<<Choice>>
-state "PrepareFulfillWidgetRequest" as state2<<aslPass>>
-state "PrepareFulfillAskRequest" as state3<<aslPass>>
+state "Fulfilling" as compositeState1 ##[dashed] {
 state "FulfillWidget" as state4<<aslTask>>
 state "FulfillAsk" as state5<<aslTask>>
 state "FulfillFundAccount" as state6<<aslTask>>
+}
+state "Dispatch by type of item" as state1<<Choice>>
+state "PrepareFulfillWidgetRequest" as state2<<aslPass>>
+state "PrepareFulfillAskRequest" as state3<<aslPass>>
 state "MarkOrderAsFulfilled" as state7<<aslTask>>
 state "Error" as state8<<aslFail>>
 state "PublishOrderComplete" as state9<<aslTask>>

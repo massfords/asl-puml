@@ -56,6 +56,7 @@ export interface CompensationConfig {
 export interface UserSpecifiedConfig {
   theme: {
     compensation?: CompensationConfig;
+    compositeStates?: Record<string, string>;
     lines?: {
       fromCatch?: LineConfig;
       toFail?: LineConfig;
@@ -79,6 +80,7 @@ export interface UserSpecifiedConfig {
 export interface Config {
   theme: {
     compensation: CompensationConfig;
+    compositeStates: Record<string, string>;
     lines: {
       fromCatch: LineConfig;
       toFail: LineConfig;
@@ -104,6 +106,7 @@ export const DefaultConfig: Config = {
     skinparams: {
       ArrowColor: "#black",
     },
+    compositeStates: {},
     states: {
       Pass: {
         BackgroundColor: "#whitesmoke",

@@ -23,7 +23,18 @@ describe("unit tests for generating puml diagrams", () => {
       expect.hasAssertions();
 
       const definition = loadDefinition(filename);
-      const result = asl_to_puml(definition, DefaultConfig);
+      const result = asl_to_puml(
+        definition,
+        filename === "demo.asl.json"
+          ? {
+              theme: {
+                compositeStates: {
+                  "^Fulfill.+$": "Fulfilling",
+                },
+              },
+            }
+          : DefaultConfig
+      );
       if (!result.isValid) {
         // the generates are expected to work
         // this provides better insight into why it failed
