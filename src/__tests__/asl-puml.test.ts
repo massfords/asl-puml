@@ -1,4 +1,4 @@
-import { AslDefinition, DefaultConfig } from "../lib/types";
+import { AslDefinition, UserSpecifiedConfig } from "../lib/types";
 import fs from "fs";
 import path from "path";
 import { asl_to_puml } from "../asl-puml";
@@ -19,21 +19,56 @@ describe("unit tests for generating puml diagrams", () => {
       .readdirSync(path.join(__dirname, "definitions"))
       .filter((file) => file.endsWith(".asl.json"));
 
+    const configByFileName = new Map<string, UserSpecifiedConfig>();
+    configByFileName.set("demo.asl.json", {
+      theme: {
+        compositeStates: {
+          "^Fulfill.+$": "Fulfilling",
+        },
+        comments: {
+          "^.+$": {
+            width: 30,
+            side: "left",
+          },
+        },
+      },
+    });
+    configByFileName.set("aws-example-dynamodb-semaphore.asl.json", {
+      theme: {
+        comments: {
+          "Acquire Lock": {
+            width: 30,
+            side: "left",
+          },
+        },
+      },
+    });
+    configByFileName.set("aws-example-execute_athena_query.asl.json", {
+      theme: {
+        comments: {},
+      },
+    });
+    const defaultStyleForTests: UserSpecifiedConfig = {
+      theme: {
+        compositeStates: {
+          "^Fulfill.+$": "Fulfilling",
+        },
+        comments: {
+          "^.+$": {
+            width: 30,
+            side: "left",
+          },
+        },
+      },
+    };
+
     test.each(files)("%s", (filename) => {
       expect.hasAssertions();
 
       const definition = loadDefinition(filename);
       const result = asl_to_puml(
         definition,
-        filename === "demo.asl.json"
-          ? {
-              theme: {
-                compositeStates: {
-                  "^Fulfill.+$": "Fulfilling",
-                },
-              },
-            }
-          : DefaultConfig
+        configByFileName.get(filename) ?? defaultStyleForTests
       );
       if (!result.isValid) {
         // the generates are expected to work

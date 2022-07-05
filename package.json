@@ -1,6 +1,6 @@
 {
   "name": "asl-puml",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Generates a plant uml file from a valid ASL file",
   "main": "./dist/asl-puml.js",
   "bin": {
@@ -52,6 +52,7 @@
     "ajv": "^8.11.0",
     "asl-validator": "^2.2.0",
     "commander": "^9.3.0",
-    "jsonpath-plus": "^7.0.0"
+    "jsonpath-plus": "^7.0.0",
+    "word-wrap": "^1.2.3"
   }
 }

@@ -1,7 +1,16 @@
 import { Config, PumlBuilder, StateHints, StateName } from "./types";
 import { must } from "./assertions";
+import wordwrap from "word-wrap";
 
 export const decls: PumlBuilder = (definition, state_map, config: Config) => {
+  const truncate = (str: string, maxWidth: number): string => {
+    if (str.length <= maxWidth) {
+      return str;
+    }
+    const subString = str.substring(0, maxWidth - 1);
+    return `${subString.substring(0, subString.lastIndexOf(" "))}...`;
+  };
+
   const emit_decl = (
     stateName: StateName,
     hints: StateHints,
@@ -24,6 +33,35 @@ export const decls: PumlBuilder = (definition, state_map, config: Config) => {
         }
       });
       accum.lines.push("}");
+    }
+
+    // see if there's a note for the state
+    const comment: string | null = hints.json.Comment ?? null;
+    if (comment) {
+      const noteConfigs = Object.keys(config.theme.comments)
+        .map((pattern) => {
+          const firstPeriod = comment.indexOf(".");
+          return {
+            pattern: new RegExp(pattern, "ui"),
+            comment:
+              firstPeriod !== -1
+                ? comment.substring(0, firstPeriod + 1)
+                : comment,
+            commentConfig: config.theme.comments[pattern],
+          };
+        })
+        .filter((entry) => entry.pattern.test(stateName));
+      if (noteConfigs.length > 0) {
+        const { comment, commentConfig } = noteConfigs[0];
+        accum.lines.push(`note ${commentConfig.side}`);
+        accum.lines.push(
+          wordwrap(truncate(comment, 512), {
+            width: commentConfig.width,
+            trim: true,
+          })
+        );
+        accum.lines.push(`end note`);
+      }
     }
   };
 

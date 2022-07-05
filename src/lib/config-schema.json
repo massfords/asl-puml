@@ -65,6 +65,18 @@
       },
       "additionalProperties": false
     },
+    "noteConfig": {
+      "type": "object",
+      "required": ["width", "side"],
+      "properties": {
+        "width": {
+          "type": "integer"
+        },
+        "side": {
+          "enum": ["left", "right"]
+        }
+      }
+    },
     "theme": {
       "type": "object",
       "required": ["compensation", "lines", "skinparams", "states", "compositeStates"],
@@ -127,7 +139,20 @@
           "additionalProperties": false
         },
         "compositeStates": {
-          "type": "object"
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string"
+            }
+          }
+        },
+        "comments" : {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "$ref": "#/$defs/noteConfig"
+            }
+          }
         }
       },
       "additionalProperties": false

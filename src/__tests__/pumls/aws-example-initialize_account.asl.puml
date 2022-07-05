@@ -13,6 +13,10 @@ skinparam state {
     BackgroundColor<<Compensate>> #orange
 }
 state "Build Folder List" as state1<<aslPass>>
+note left
+  Build a list of folders that
+  should be created in s3
+end note
 state "Create Default Folders" as state2<<aslMap>> {
 state "Ensure Folder Exists" as state5<<aslTask>>
 }

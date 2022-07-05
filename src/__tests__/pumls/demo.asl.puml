@@ -28,6 +28,11 @@ state "MarkOrderAsFulfilled" as state7<<aslTask>>
 state "Error" as state8<<aslFail>>
 state "PublishOrderComplete" as state9<<aslTask>>
 state "PublishCompensate" as state10<<Compensate>>
+note left
+  order will be canceled,
+  payments refunded, and
+  inventory released
+end note
 [*] --> state1
 state1 --> state2
 note on link

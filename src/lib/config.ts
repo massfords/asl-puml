@@ -13,6 +13,7 @@ export const toConfig = (
   const config: Config = {
     theme: {
       compositeStates: configFromUsr.theme.compositeStates ?? {},
+      comments: configFromUsr.theme.comments ?? {},
       skinparams: {
         ...DefaultConfig.theme.skinparams,
         ...configFromUsr.theme.skinparams,

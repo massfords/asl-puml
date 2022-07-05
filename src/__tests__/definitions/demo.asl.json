@@ -228,6 +228,7 @@
       ]
     },
     "PublishCompensate": {
+      "Comment": "order will be canceled, payments refunded, and inventory released",
       "Type": "Task",
       "Resource": "arn:aws:states:::events:putEvents",
       "Parameters": {

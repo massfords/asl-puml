@@ -24,6 +24,7 @@ export interface StateJsonNode {
   Default?: string;
   Next?: string;
   Catch?: Array<{ Next: string }>;
+  Comment?: string | null;
 }
 
 export type AslStatesNode = Record<StateName, StateJsonNode>;
@@ -53,10 +54,16 @@ export interface CompensationConfig {
   pattern: RegExp | string;
   color: Color;
 }
+export interface NoteConfig {
+  width: number;
+  side: "left" | "right";
+}
+
 export interface UserSpecifiedConfig {
   theme: {
     compensation?: CompensationConfig;
     compositeStates?: Record<string, string>;
+    comments?: Record<string, NoteConfig>;
     lines?: {
       fromCatch?: LineConfig;
       toFail?: LineConfig;
@@ -81,6 +88,7 @@ export interface Config {
   theme: {
     compensation: CompensationConfig;
     compositeStates: Record<string, string>;
+    comments: Record<string, NoteConfig>;
     lines: {
       fromCatch: LineConfig;
       toFail: LineConfig;
@@ -106,6 +114,7 @@ export const DefaultConfig: Config = {
     skinparams: {
       ArrowColor: "#black",
     },
+    comments: {},
     compositeStates: {},
     states: {
       Pass: {
