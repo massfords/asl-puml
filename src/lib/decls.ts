@@ -73,7 +73,7 @@ export const decls: PumlBuilder = (definition, state_map, config: Config) => {
     emitted: new Set<StateName>(),
   };
 
-  const compositeStatesCounter = 1;
+  let compositeStatesCounter = 1;
 
   // emit the states that are logically grouped under a label
   const { compositeStates } = config.theme;
@@ -96,6 +96,7 @@ export const decls: PumlBuilder = (definition, state_map, config: Config) => {
       accum.lines.push(
         `state "${compositeStateLabel}" as compositeState${compositeStatesCounter} ##[dashed] {`
       );
+      compositeStatesCounter += 1;
       matches.forEach((key) => {
         const value = state_map.get(key);
         must(value);

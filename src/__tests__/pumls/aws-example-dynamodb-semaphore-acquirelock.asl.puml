@@ -1,0 +1,58 @@
+@startuml
+hide empty description
+skinparam ArrowColor #black
+skinparam state {
+
+    BackgroundColor<<Choice>> #whitesmoke
+    FontColor<<Choice>> automatic
+
+    BackgroundColor<<aslPass>> #whitesmoke
+    FontColor<<aslPass>> automatic
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> automatic
+
+    BackgroundColor<<aslTask>> #lightblue
+    FontColor<<aslTask>> automatic
+
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
+}
+state "Acquire Lock" as compositeState1 ##[dashed] {
+state "Acquire Lock" as state1<<aslTask>>
+state "Initialize Lock Item" as state2<<aslTask>>
+state "Get Current Lock Record" as state3<<aslTask>>
+state "Check If Lock Already Acquired" as state4<<Choice>>
+state "Continue Because Lock Was Already Acquired" as state5<<aslPass>>
+state "Wait to Get Lock" as state6<<aslWait>>
+}
+state "Do Work" as compositeState2 ##[dashed] {
+state "Here" as state7<<aslPass>>
+state "You" as state8<<aslPass>>
+state "Do" as state9<<aslPass>>
+state "Work" as state10<<aslPass>>
+state "Run Lambda Function With Controlled Concurrency" as state11<<aslTask>>
+}
+state "Release" as state12<<aslTask>>
+state "Success State" as state13<<aslSucceed>>
+[*] --> state1
+state1 --> state7
+state1 -[bold,#orange]-> state2
+state1 -[bold,#orange]-> state3
+state2 --> state1
+state2 -[bold,#orange]-> state1
+state3 --> state4
+state4 --> state5
+state4 --> state6
+state5 --> state7
+state6 --> state1
+state7 --> state8
+state8 --> state9
+state9 --> state10
+state10 --> state11
+state11 --> state12
+state12 --> state13
+state12 -[bold,#orange]-> state13
+state13 --> [*]
+@enduml

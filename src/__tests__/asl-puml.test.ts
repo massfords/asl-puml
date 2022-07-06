@@ -48,6 +48,17 @@ describe("unit tests for generating puml diagrams", () => {
         comments: {},
       },
     });
+    configByFileName.set(
+      "aws-example-dynamodb-semaphore-acquirelock.asl.json",
+      {
+        theme: {
+          compositeStates: {
+            "^.*Lock.*$": "Acquire Lock",
+            "^Here|You|Do|Work|(Run Lambda.*)$": "Do Work",
+          },
+        },
+      }
+    );
     const defaultStyleForTests: UserSpecifiedConfig = {
       theme: {
         compositeStates: {
