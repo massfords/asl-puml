@@ -53,7 +53,7 @@ describe("unit tests for generating puml diagrams", () => {
       {
         theme: {
           compositeStates: {
-            "^.*Lock.*$": "Acquire Lock",
+            "^.*Lock.*$": "Get Lock",
             "^Here|You|Do|Work|(Run Lambda.*)$": "Do Work",
           },
         },
