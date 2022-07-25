@@ -5,11 +5,7 @@ import path from "path";
 import { program } from "commander";
 
 import { asl_to_puml } from "../src/asl-puml";
-import {
-  AslDefinition,
-  DefaultConfig,
-  UserSpecifiedConfig,
-} from "../src/lib/types";
+import { AslDefinition, UserSpecifiedConfig } from "../src/lib/types";
 
 function doneValid() {
   process.exit(0);
@@ -37,9 +33,9 @@ try {
   const definition: AslDefinition = JSON.parse(
     fs.readFileSync(opts.input, "utf-8")
   ) as AslDefinition;
-  const config: UserSpecifiedConfig = opts.config
+  const config: UserSpecifiedConfig | null = opts.config
     ? (JSON.parse(fs.readFileSync(opts.config, "utf-8")) as UserSpecifiedConfig)
-    : DefaultConfig;
+    : null;
   const response = asl_to_puml(definition, config);
   if (response.isValid) {
     const dir = opts.output
