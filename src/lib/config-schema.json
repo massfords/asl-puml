@@ -1,6 +1,7 @@
 {
   "$id": "https://github.com/massfords/asl-puml#",
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Config",
   "type": "object",
   "$defs": {
     "color": {
@@ -8,6 +9,7 @@
       "pattern": "^#([a-zA-Z]+)|[\\da-fA-F]{2,6}$"
     },
     "compensation": {
+      "title": "Compensation Config",
       "type": "object",
       "properties": {
         "pattern": {
@@ -21,6 +23,7 @@
       "additionalProperties": false
     },
     "line": {
+      "title": "Line Config",
       "type": "object",
       "required": ["color"],
       "properties": {
@@ -36,6 +39,7 @@
       "additionalProperties": false
     },
     "state": {
+      "title": "State Config",
       "type": "object",
       "required": ["BackgroundColor"],
       "properties": {
@@ -79,10 +83,26 @@
     },
     "theme": {
       "type": "object",
-      "required": ["compensation", "lines", "skinparams", "states", "compositeStates"],
+      "required": ["compensation", "lines", "skinparams", "states", "compositeStates", "comments"],
       "properties": {
         "compensation": {
           "$ref": "#/$defs/compensation"
+        },
+        "compositeStates": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string"
+            }
+          }
+        },
+        "comments" : {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "$ref": "#/$defs/noteConfig"
+            }
+          }
         },
         "lines": {
           "type": "object",
@@ -111,48 +131,32 @@
           "type": "object",
           "required": ["Pass", "Task", "Choice", "Wait", "Succeed", "Fail", "Parallel", "Map"],
           "properties": {
-            "Pass": {
-              "$ref": "#/$defs/state"
-            },
-            "Task": {
-              "$ref": "#/$defs/state"
-            },
             "Choice": {
-              "$ref": "#/$defs/state"
-            },
-            "Wait": {
-              "$ref": "#/$defs/state"
-            },
-            "Succeed": {
               "$ref": "#/$defs/state"
             },
             "Fail": {
               "$ref": "#/$defs/state"
             },
+            "Map": {
+              "$ref": "#/$defs/state"
+            },
             "Parallel": {
               "$ref": "#/$defs/state"
             },
-            "Map": {
+            "Pass": {
+              "$ref": "#/$defs/state"
+            },
+            "Succeed": {
+              "$ref": "#/$defs/state"
+            },
+            "Task": {
+              "$ref": "#/$defs/state"
+            },
+            "Wait": {
               "$ref": "#/$defs/state"
             }
           },
           "additionalProperties": false
-        },
-        "compositeStates": {
-          "type": "object",
-          "patternProperties": {
-            "^.+$": {
-              "type": "string"
-            }
-          }
-        },
-        "comments" : {
-          "type": "object",
-          "patternProperties": {
-            "^.+$": {
-              "$ref": "#/$defs/noteConfig"
-            }
-          }
         }
       },
       "additionalProperties": false
