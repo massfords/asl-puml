@@ -4,6 +4,7 @@ import path from "path";
 import { asl_to_puml } from "../asl-puml";
 import { aslValidator } from "../lib/validator";
 import invariant from "tiny-invariant";
+import { describe, expect } from "@jest/globals";
 
 describe("unit tests for generating puml diagrams", () => {
   const loadDefinition = (name: string): AslDefinition => {
