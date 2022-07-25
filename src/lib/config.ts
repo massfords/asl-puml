@@ -6,7 +6,7 @@ import { Config } from "./generated/config";
 const ajv: Ajv = new Ajv({ schemas: [config] });
 
 export const toConfig = (
-  configFromUsr?: UserSpecifiedConfig
+  configFromUsr?: UserSpecifiedConfig | null
 ): { isValid: true; config: Config } | { isValid: false; message: string } => {
   if (!configFromUsr) {
     return { isValid: true, config: DefaultConfig };
