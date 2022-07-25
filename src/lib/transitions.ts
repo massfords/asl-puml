@@ -1,11 +1,7 @@
 import { JSONPath } from "jsonpath-plus";
-import {
-  AslChoiceTransitionNode,
-  LineConfig,
-  PumlBuilder,
-  StateHints,
-} from "./types";
-import { assertStateHints } from "./assertions";
+import { AslChoiceTransitionNode, PumlBuilder, StateHints } from "./types";
+import { LineConfig } from "./generated/config";
+import invariant from "tiny-invariant";
 
 export const transitions: PumlBuilder = (definition, state_map, config) => {
   const catchTransitions = new Set();
@@ -58,7 +54,7 @@ end note`);
   };
   // emit the head --> start with
   const head = state_map.get(definition.StartAt);
-  assertStateHints(head);
+  invariant(head);
   lines.push(`[*] --> state${head.id}`);
   // emit transition for each state to its Next/Default
   state_map.forEach((hints) => {
@@ -70,7 +66,7 @@ end note`);
       });
       transitionNodes.forEach((target) => {
         const targetHint = state_map.get(target.Next);
-        assertStateHints(targetHint);
+        invariant(targetHint);
         let label = "";
         if (target.StringEquals) {
           label = `"${target.StringEquals}"`;
@@ -85,12 +81,12 @@ end note`);
       });
       if (hints.json.Default) {
         const targetHint = state_map.get(hints.json.Default);
-        assertStateHints(targetHint);
+        invariant(targetHint);
         emit_transition_with_color({ srcHint: hints, targetHint });
       }
     } else if (hints.json.Next) {
       const targetHint = state_map.get(hints.json.Next);
-      assertStateHints(targetHint);
+      invariant(targetHint);
       emit_transition_with_color({ srcHint: hints, targetHint });
     } else {
       emit_transition_with_color({ srcHint: hints });
@@ -109,7 +105,7 @@ end note`);
         }
         catchTransitions.add(catchKey);
         const catchTargetHints = state_map.get(katch.Next);
-        assertStateHints(catchTargetHints);
+        invariant(catchTargetHints);
         if (catchTargetHints.json.Type === "Fail") {
           lines.push(
             `state${hints.id} ${lineFromStyle(

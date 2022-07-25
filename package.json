@@ -7,7 +7,8 @@
     "asl-puml": "./dist/bin/asl-puml.js"
   },
   "scripts": {
-    "build": "npx tsc",
+    "build": "npm run generate && npx tsc",
+    "generate": "rimraf src/generated && ./node_modules/.bin/json2ts -i src/lib/config-schema.json -o src/lib/generated/config.d.ts",
     "lint": "npx eslint . --max-warnings 0 --ext ts",
     "test": "npm run build && npx jest"
   },
@@ -43,7 +44,9 @@
     "eslint-plugin-prettier": "^4.1.0",
     "jest": "^28.1.1",
     "jest-junit": "^14.0.0",
+    "json-schema-to-typescript": "^11.0.1",
     "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.4"
@@ -53,6 +56,7 @@
     "asl-validator": "^2.2.0",
     "commander": "^9.3.0",
     "jsonpath-plus": "^7.0.0",
+    "tiny-invariant": "^1.2.0",
     "word-wrap": "^1.2.3"
   }
 }

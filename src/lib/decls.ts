@@ -1,6 +1,7 @@
-import { Config, PumlBuilder, StateHints, StateName } from "./types";
-import { must } from "./assertions";
+import { PumlBuilder, StateHints, StateName } from "./types";
 import wordwrap from "word-wrap";
+import { Config } from "./generated/config";
+import invariant from "tiny-invariant";
 
 export const decls: PumlBuilder = (definition, state_map, config: Config) => {
   const truncate = (str: string, maxWidth: number): string => {
@@ -99,7 +100,7 @@ export const decls: PumlBuilder = (definition, state_map, config: Config) => {
       compositeStatesCounter += 1;
       matches.forEach((key) => {
         const value = state_map.get(key);
-        must(value);
+        invariant(value);
         emit_decl(key, value, accum);
       });
       accum.lines.push("}");

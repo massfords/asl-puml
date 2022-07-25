@@ -2,8 +2,8 @@ import { AslDefinition, UserSpecifiedConfig } from "../lib/types";
 import fs from "fs";
 import path from "path";
 import { asl_to_puml } from "../asl-puml";
-import { must } from "../lib/assertions";
 import { aslValidator } from "../lib/validator";
+import invariant from "tiny-invariant";
 
 describe("unit tests for generating puml diagrams", () => {
   const loadDefinition = (name: string): AslDefinition => {
@@ -86,8 +86,10 @@ describe("unit tests for generating puml diagrams", () => {
         // this provides better insight into why it failed
         expect(result.message).toBeFalsy();
       }
-      expect(result.isValid).toBe(true);
-      must(result.isValid);
+      invariant(
+        result.isValid,
+        `Unexpected error message in result: ${JSON.stringify(result)}`
+      );
       const expected = fs.readFileSync(
         path.join(__dirname, "pumls", `${path.parse(filename).name}.puml`),
         "utf-8"

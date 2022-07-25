@@ -1,6 +1,7 @@
-import { Config, DefaultConfig, UserSpecifiedConfig } from "./types";
+import { DefaultConfig, UserSpecifiedConfig } from "./types";
 import Ajv from "ajv";
 import config from "./config-schema.json";
+import { Config } from "./generated/config";
 
 const ajv: Ajv = new Ajv({ schemas: [config] });
 

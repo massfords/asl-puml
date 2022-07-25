@@ -1,12 +1,7 @@
 import { JSONPath } from "jsonpath-plus";
-import {
-  AslStatesNode,
-  AslStateType,
-  Config,
-  StateHints,
-  StateName,
-} from "./types";
-import { assertStateHints } from "./assertions";
+import { AslStatesNode, AslStateType, StateHints, StateName } from "./types";
+import { Config } from "./generated/config";
+import invariant from "tiny-invariant";
 
 const compute_stereotype = (
   stateName: StateName,
@@ -60,7 +55,7 @@ export const build_state_map = (
       child_states.forEach((states) => {
         Object.keys(states).forEach((stateName) => {
           const child_value = state_map.get(stateName);
-          assertStateHints(child_value);
+          invariant(child_value);
           child_value.parent = key;
           child_value.stereotype = compute_stereotype(
             stateName,
@@ -85,7 +80,7 @@ export const build_state_map = (
         found_states.forEach((states) => {
           Object.keys(states).forEach((stateName) => {
             const child_value = state_map.get(stateName);
-            assertStateHints(child_value);
+            invariant(child_value);
             child_value.parent = key;
           });
         });
