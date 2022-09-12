@@ -37,10 +37,8 @@ try {
     ? (JSON.parse(fs.readFileSync(opts.config, "utf-8")) as UserSpecifiedConfig)
     : null;
   const response = asl_to_puml(definition, config);
+  const dir = opts.output ? opts.output : path.parse(opts.input).dir;
   if (response.isValid) {
-    const dir = opts.output
-      ? path.parse(opts.output).base
-      : path.parse(opts.input).dir;
     fs.writeFileSync(
       path.join(dir, `${path.parse(opts.input).name}.puml`),
       Buffer.from(response.puml, "utf-8")

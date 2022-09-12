@@ -5,6 +5,48 @@
 
 [![NPM](https://nodei.co/npm/asl-puml.png?stars=true)](https://www.npmjs.com/package/asl-puml)
 
+## Install
+```bash
+# Use via the CLI
+npm install -g asl-puml
+# Use in your code
+npm install asl-puml
+```
+
+## CLI
+```bash
+$ asl-puml --help
+
+  Usage: asl-puml [options]
+
+  Amazon States Language to PUML
+
+  Options:
+
+Amazon States Language to PUML
+
+Options:
+  -i --input <input>    path to input file
+  -o --output <output>  path to output dir
+  -c --config <config>  path to config file
+  -h, --help            display help for command
+```
+Return status:
+- `0` if diagram was generated
+- `1` if there was an error
+
+## In your code
+```javascript
+const aslPuml = require('asl-puml');
+const definition = require('./path/to/my/state/machine/json/definition');
+const { isValid, puml, message } = aslPuml(definition);
+if (isValid) {
+  console.log(puml)
+} else {
+  console.error(message);
+}
+```
+
 ## What does it do?
 
 Generates a plantuml state diagram from a valid [**Amazon States Language**](https://states-language.net/spec.html) file.
@@ -101,48 +143,6 @@ A user supplied file that conforms to the config-schema.json type can be provide
   }
 }
 
-```
-
-## Install
-```bash
-# Use via the CLI
-npm install -g asl-puml
-# Use in your code
-npm install asl-puml
-```
-
-## CLI
-```bash
-$ asl-puml --help
-
-  Usage: asl-puml [options]
-
-  Amazon States Language to PUML
-
-  Options:
-
-Amazon States Language to PUML
-
-Options:
-  -i --input <input>    path to input file
-  -o --output <output>  path to output dir
-  -c --config <config>  path to config file
-  -h, --help            display help for command
-```
-Return status:
-- `0` if diagram was generated
-- `1` if there was an error
-
-## In your code
-```javascript
-const aslPuml = require('asl-puml');
-const definition = require('./path/to/my/state/machine/json/definition');
-const { isValid, puml, message } = aslPuml(definition);
-if (isValid) {
-  console.log(puml)
-} else {
-  console.error(message);
-}
 ```
 
 ## See also
