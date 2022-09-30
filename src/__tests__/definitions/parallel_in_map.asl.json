@@ -1,0 +1,44 @@
+{
+  "StartAt": "Map",
+  "States": {
+    "Map": {
+      "Type": "Map",
+      "Next": "Final State",
+      "Iterator": {
+        "StartAt": "Parallel",
+        "States": {
+          "Parallel": {
+            "Type": "Parallel",
+            "Branches": [
+              {
+                "StartAt": "Wait 20s",
+                "States": {
+                  "Wait 20s": {
+                    "Type": "Wait",
+                    "Seconds": 20,
+                    "End": true
+                  }
+                }
+              },
+              {
+                "StartAt": "Wait 30s",
+                "States": {
+                  "Wait 30s": {
+                    "Type": "Wait",
+                    "Seconds": 30,
+                    "End": true
+                  }
+                }
+              }
+
+            ],
+            "End": true
+          }
+        }
+      }
+    },
+    "Final State": {
+      "Type": "Succeed"
+    }
+  }
+}
