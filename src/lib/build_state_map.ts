@@ -67,11 +67,14 @@ export const build_state_map = (
     }
     if (value.json.Type === "Parallel") {
       // update the child states
-      const branches: Array<Record<string, unknown>> = JSONPath({
+      const result:
+        | Array<Record<string, unknown>>
+        | Array<Record<string, unknown>>[] = JSONPath({
         json: definition,
         path: `$..['States']['${key}'].Branches`,
         wrap: false,
       });
+      const branches = Array.isArray(result[0]) ? result[0] : result;
       branches.forEach((branch) => {
         const found_states: AslStatesNode[] = JSONPath({
           json: branch,

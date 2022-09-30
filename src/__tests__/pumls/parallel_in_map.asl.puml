@@ -1,0 +1,27 @@
+@startuml
+hide empty description
+skinparam ArrowColor #black
+skinparam state {
+
+    BackgroundColor<<aslMap>> #whitesmoke
+
+    BackgroundColor<<aslParallel>> #whitesmoke
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> automatic
+
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
+}
+state "Map" as state1<<aslMap>> {
+state "Parallel" as state3<<aslParallel>> {
+state "Wait 20s" as state4<<aslWait>>
+state "Wait 30s" as state5<<aslWait>>
+}
+}
+state "Final State" as state2<<aslSucceed>>
+[*] --> state1
+state1 --> state2
+state2 --> [*]
+@enduml
