@@ -69,9 +69,9 @@ end note`);
         invariant(targetHint);
         let label = "";
         if (target.Comment) {
-          label = `"${target.Comment}"`;
+          label = target.Comment;
         } else if (target.StringEquals) {
-          label = `"${target.StringEquals}"`;
+          label = target.StringEquals;
         }
         emit_transition_with_color({
           srcHint: hints,
