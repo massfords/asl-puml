@@ -45,6 +45,7 @@ export type AslDefinition = Record<string, unknown> & {
 export interface AslChoiceTransitionNode {
   Next: StateName;
   StringEquals?: string;
+  Comment?: string;
 }
 
 export interface ContainerStateConfig {

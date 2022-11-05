@@ -36,15 +36,15 @@ end note
 [*] --> state1
 state1 --> state2
 note on link
-"WIDGET"
+"widgets"
 end note
 state1 --> state3
 note on link
-"ASK"
+"market purchase"
 end note
 state1 --> state6
 note on link
-"FUND"
+"fund account"
 end note
 state1 -[#pink]-> state8
 state2 --> state4
