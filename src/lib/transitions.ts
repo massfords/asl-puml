@@ -68,7 +68,9 @@ end note`);
         const targetHint = state_map.get(target.Next);
         invariant(targetHint);
         let label = "";
-        if (target.StringEquals) {
+        if (target.Comment) {
+          label = `"${target.Comment}"`;
+        } else if (target.StringEquals) {
           label = `"${target.StringEquals}"`;
         }
         emit_transition_with_color({

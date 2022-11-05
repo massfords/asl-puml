@@ -8,16 +8,19 @@
         {
           "Variable": "$.item.product_type",
           "StringEquals": "WIDGET",
+          "Comment": "widgets",
           "Next": "PrepareFulfillWidgetRequest"
         },
         {
           "Variable": "$.item.product_type",
           "StringEquals": "ASK",
+          "Comment": "market purchase",
           "Next": "PrepareFulfillAskRequest"
         },
         {
           "Variable": "$.item.product_type",
           "StringEquals": "FUND",
+          "Comment": "fund account",
           "Next": "FulfillFundAccount"
         }
       ],
