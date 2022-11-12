@@ -22,6 +22,7 @@ skinparam state {
     BackgroundColor<<Compensate>> #orange
 }
 state "Get Lock" as state1<<aslParallel>> {
+state "Branch 1" as state1_1 {
 state "Acquire Lock" as state5<<aslTask>>
 note left
   acquire a lock using a
@@ -34,12 +35,15 @@ state "Check If Lock Already Acquired" as state8<<Choice>>
 state "Continue Because Lock Was Already Acquired" as state9<<aslPass>>
 state "Wait to Get Lock" as state10<<aslWait>>
 }
+}
 state "Do Work" as state2<<aslParallel>> {
+state "Branch 1" as state2_1 {
 state "Here" as state11<<aslPass>>
 state "You" as state12<<aslPass>>
 state "Do" as state13<<aslPass>>
 state "Work" as state14<<aslPass>>
 state "Run Lambda Function With Controlled Concurrency" as state15<<aslTask>>
+}
 }
 state "Release Lock" as state3<<aslTask>>
 state "Success State" as state4<<aslSucceed>>

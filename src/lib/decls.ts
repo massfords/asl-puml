@@ -28,11 +28,28 @@ export const decls: PumlBuilder = (definition, state_map, config: Config) => {
     const brace = isContainer ? " {" : "";
     accum.lines.push(`${stateDecl}${brace}`);
     if (isContainer) {
-      state_map.forEach((vv, kk) => {
-        if (vv.parent === stateName) {
-          emit_decl(kk, vv, accum);
-        }
-      });
+      if ("Parallel" === hints.json.Type) {
+        (hints.json.Branches || []).forEach((_, index) => {
+          const branchNumber = index + 1;
+          // add branch open
+          accum.lines.push(
+            `state "Branch ${branchNumber}" as state${hints.id}_${branchNumber} {`
+          );
+          state_map.forEach((vv, kk) => {
+            if (vv.parent === stateName && vv.branch === branchNumber) {
+              emit_decl(kk, vv, accum);
+            }
+          });
+          // add branch close
+          accum.lines.push("}");
+        });
+      } else {
+        state_map.forEach((vv, kk) => {
+          if (vv.parent === stateName) {
+            emit_decl(kk, vv, accum);
+          }
+        });
+      }
       accum.lines.push("}");
     }
 

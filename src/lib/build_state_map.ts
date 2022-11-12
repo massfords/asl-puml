@@ -75,7 +75,7 @@ export const build_state_map = (
         wrap: false,
       });
       const branches = Array.isArray(result[0]) ? result[0] : result;
-      branches.forEach((branch) => {
+      branches.forEach((branch, index) => {
         const found_states: AslStatesNode[] = JSONPath({
           json: branch,
           path: "$.States",
@@ -85,6 +85,7 @@ export const build_state_map = (
             const child_value = state_map.get(stateName);
             invariant(child_value);
             child_value.parent = key;
+            child_value.branch = index + 1;
           });
         });
       });

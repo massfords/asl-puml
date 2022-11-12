@@ -16,8 +16,12 @@ skinparam state {
 }
 state "Map" as state1<<aslMap>> {
 state "Parallel" as state3<<aslParallel>> {
+state "Branch 1" as state3_1 {
 state "Wait 20s" as state4<<aslWait>>
+}
+state "Branch 2" as state3_2 {
 state "Wait 30s" as state5<<aslWait>>
+}
 }
 }
 state "Final State" as state2<<aslSucceed>>
