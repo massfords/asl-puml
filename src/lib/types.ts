@@ -9,6 +9,7 @@ import {
 
 export interface StateHints {
   parent: string | null;
+  branch?: number | null;
   stereotype: string | null;
   id: number;
   json: StateJsonNode;
@@ -34,6 +35,7 @@ export interface StateJsonNode {
   Next?: string;
   Catch?: Array<{ Next: string }>;
   Comment?: string | null;
+  Branches?: unknown[];
 }
 
 export type AslStatesNode = Record<StateName, StateJsonNode>;
