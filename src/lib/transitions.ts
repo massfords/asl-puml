@@ -96,7 +96,7 @@ end note`);
 
     // check for Catch in a Task
     if (
-      ["Task", "Parallel"].indexOf(hints.json.Type) !== -1 &&
+      ["Task", "Parallel", "Map"].indexOf(hints.json.Type) !== -1 &&
       hints.json.Catch
     ) {
       // get the catch exit points

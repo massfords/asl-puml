@@ -35,7 +35,19 @@
             "End": true
           }
         }
-      }
+      },
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "Error"
+        }
+      ]
+    },
+    "Error": {
+      "Type": "Fail"
     },
     "Final State": {
       "Type": "Succeed"
