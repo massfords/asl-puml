@@ -3,6 +3,9 @@ hide empty description
 skinparam ArrowColor #black
 skinparam state {
 
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> automatic
+
     BackgroundColor<<aslMap>> #whitesmoke
 
     BackgroundColor<<aslParallel>> #whitesmoke
@@ -15,17 +18,20 @@ skinparam state {
     BackgroundColor<<Compensate>> #orange
 }
 state "Map" as state1<<aslMap>> {
-state "Parallel" as state3<<aslParallel>> {
-state "Branch 1" as state3_1 {
-state "Wait 20s" as state4<<aslWait>>
+state "Parallel" as state4<<aslParallel>> {
+state "Branch 1" as state4_1 {
+state "Wait 20s" as state5<<aslWait>>
 }
-state "Branch 2" as state3_2 {
-state "Wait 30s" as state5<<aslWait>>
+state "Branch 2" as state4_2 {
+state "Wait 30s" as state6<<aslWait>>
 }
 }
 }
-state "Final State" as state2<<aslSucceed>>
+state "Error" as state2<<aslFail>>
+state "Final State" as state3<<aslSucceed>>
 [*] --> state1
-state1 --> state2
-state2 --> [*]
+state1 --> state3
+state1 -[#pink]-> state2
+state2 -[#pink]-> [*]
+state3 --> [*]
 @enduml
