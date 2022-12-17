@@ -51,6 +51,11 @@ state2 --> state4
 state3 --> state5
 state4 --> state7
 state4 -[bold,#orange]-> state9
+note on link
+Widget fulfillment
+errors handled
+elsewhere
+end note
 state5 --> state7
 state5 -[bold,#orange]-> state10
 state6 --> state7

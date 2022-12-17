@@ -18,6 +18,7 @@ describe("unit tests for generating puml diagrams", () => {
   describe("generate pumls", () => {
     const files = fs
       .readdirSync(path.join(__dirname, "definitions"))
+      // .filter((file) => file.indexOf("demo.asl.json") >= 0)
       .filter((file) => file.endsWith(".asl.json"));
 
     const configByFileName = new Map<string, UserSpecifiedConfig>();
@@ -36,6 +37,7 @@ describe("unit tests for generating puml diagrams", () => {
     });
     configByFileName.set("aws-example-dynamodb-semaphore.asl.json", {
       theme: {
+        excludeCatchComment: true,
         comments: {
           "Acquire Lock": {
             width: 30,
@@ -53,6 +55,7 @@ describe("unit tests for generating puml diagrams", () => {
       "aws-example-dynamodb-semaphore-acquirelock.asl.json",
       {
         theme: {
+          excludeCatchComment: true,
           compositeStates: {
             "^.*Lock.*$": "Get Lock",
             "^Here|You|Do|Work|(Run Lambda.*)$": "Do Work",

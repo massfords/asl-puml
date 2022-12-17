@@ -33,7 +33,7 @@ export interface StateJsonNode {
   End?: true;
   Default?: string;
   Next?: string;
-  Catch?: Array<{ Next: string }>;
+  Catch?: Array<{ Next: string; Comment?: string }>;
   Comment?: string | null;
   Branches?: unknown[];
 }
@@ -59,6 +59,7 @@ export interface UserSpecifiedConfig {
     compensation?: CompensationConfig;
     compositeStates?: Record<string, string>;
     comments?: Record<string, NoteConfig>;
+    excludeCatchComment?: boolean;
     lines?: {
       fromCatch?: LineConfig;
       toFail?: LineConfig;

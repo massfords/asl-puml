@@ -13,7 +13,7 @@ export const transitions: PumlBuilder = (definition, state_map, config) => {
   const emit_transition_with_color = (args: {
     srcHint: StateHints;
     targetHint?: StateHints | null;
-    extraHints?: { label?: string; fromCatch?: true };
+    extraHints?: { label?: string | null; fromCatch?: true };
   }) => {
     const { srcHint, targetHint, extraHints } = args;
     const LHS = `state${srcHint.id}`;
@@ -119,6 +119,9 @@ end note`);
             srcHint: hints,
             targetHint: catchTargetHints,
             extraHints: {
+              label: config.theme.excludeCatchComment
+                ? null
+                : katch.Comment ?? null,
               fromCatch: true,
             },
           });

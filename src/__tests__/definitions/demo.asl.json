@@ -59,6 +59,7 @@
           "ErrorEquals": [
             "States.Runtime"
           ],
+          "Comment": "Widget fulfillment\nerrors handled\nelsewhere",
           "Next": "PublishOrderComplete",
           "ResultPath": "$.fsm.error"
         },

@@ -67,6 +67,7 @@ export const toConfig = (
           ...configFromUsr.theme.states?.Task,
         },
       },
+      excludeCatchComment: Boolean(configFromUsr.theme.excludeCatchComment),
     },
   };
   // see if the config is valid

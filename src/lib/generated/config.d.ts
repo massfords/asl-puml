@@ -19,6 +19,7 @@ export interface Theme {
      */
     [k: string]: string;
   };
+  excludeCatchComment?: boolean;
   comments: {
     [k: string]: NoteConfig;
   };
