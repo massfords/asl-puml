@@ -20,13 +20,15 @@ const compute_stereotype = (
     return "<<aslSucceedLocal>>";
   }
 
-  let idx = 0;
-  for (const { pattern } of config.theme.stateStyles ?? []) {
-    const customPattern = new RegExp(pattern, "iu");
-    if (customPattern.test(stateName)) {
-      return `<<CustomStyle${idx}>>`;
+  if (hints.json.Type === "Task") {
+    let idx = 0;
+    for (const { pattern } of config.theme.stateStyles ?? []) {
+      const customPattern = new RegExp(pattern, "iu");
+      if (customPattern.test(stateName)) {
+        return `<<CustomStyle${idx}>>`;
+      }
+      idx += 1;
     }
-    idx += 1;
   }
   return `<<asl${hints.json.Type}>>`;
 };

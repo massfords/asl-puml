@@ -59,9 +59,9 @@
             "MaxAttempts": 5
           }
         ],
-        "Next": "Initial: Do Fraud Check"
+        "Next": "Do Fraud Check"
       },
-      "Initial: Do Fraud Check": {
+      "Do Fraud Check": {
         "Type": "Choice",
         "Choices": [
           {
@@ -118,9 +118,9 @@
                   "Next": "Reserve: Notify Delayed"
                 }
               ],
-              "Default": "Reserve: Successful"
+              "Default": "Successful"
             },
-            "Reserve: Successful": {
+            "Successful": {
               "Type": "Succeed"
             },
             "Reserve: Notify Delayed": {
@@ -141,10 +141,10 @@
                   }
                 ]
               },
-              "Next": "Reserve: Wait for availability",
+              "Next": "Wait for availability",
               "ResultPath": null
             },
-            "Reserve: Wait for availability": {
+            "Wait for availability": {
               "Type": "Wait",
               "Seconds": 10,
               "Next": "Reserve: Product"
@@ -212,7 +212,7 @@
             }
           ]
         },
-        "Next": "Ship: Order Shipped Successfully",
+        "Next": "Order Shipped Successfully",
         "ResultPath": null
       },
       "Ship: Notify Packaging and Shipping Failed": {
@@ -233,7 +233,7 @@
             }
           ]
         },
-        "Next": "Ship: Order Shipping Failed"
+        "Next": "Order Shipping Failed"
       },
       "Initial: Notify Fraudulent Customer": {
         "Type": "Task",
@@ -252,14 +252,14 @@
             }
           ]
         },
-        "Next": "Ship: Order Shipping Failed",
+        "Next": "Order Shipping Failed",
         "ResultPath": null
       },
-      "Ship: Order Shipping Failed": {
+      "Order Shipping Failed": {
         "Type": "Fail",
         "Error": "order_shipping_failed"
       },
-      "Ship: Order Shipped Successfully": {
+      "Order Shipped Successfully": {
         "Type": "Succeed"
       },
       "Initial: Notify Invalid Input": {
@@ -289,7 +289,7 @@
             "MaxAttempts": 3
           }
         ],
-        "Next": "Ship: Order Shipping Failed",
+        "Next": "Order Shipping Failed",
         "ResultPath": null
       }
     }

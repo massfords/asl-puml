@@ -112,6 +112,7 @@ describe("unit tests for generating puml diagrams", () => {
         result.isValid,
         `Unexpected error message in result: ${JSON.stringify(result)}`
       );
+      expect(result.isValid).toBe(true);
       const expected = fs.readFileSync(
         path.join(__dirname, "pumls", `${path.parse(filename).name}.puml`),
         "utf-8"

@@ -29,22 +29,22 @@ skinparam state {
 }
 state "Initial: Validate Input" as state1<<Choice>>
 state "Initial: Get Customer Status" as state2<<CustomStyle0>>
-state "Initial: Do Fraud Check" as state3<<Choice>>
+state "Do Fraud Check" as state3<<Choice>>
 state "Initial: Notify New Order" as state4<<CustomStyle0>>
-state "Reserve: Products" as state5<<CustomStyle1>> {
+state "Reserve: Products" as state5<<aslMap>> {
 state "Reserve: Product" as state14<<CustomStyle1>>
 state "Choice" as state15<<Choice>>
-state "Reserve: Successful" as state16<<aslSucceedLocal>>
+state "Successful" as state16<<aslSucceedLocal>>
 state "Reserve: Notify Delayed" as state17<<CustomStyle1>>
-state "Reserve: Wait for availability" as state18<<CustomStyle1>>
+state "Wait for availability" as state18<<aslWait>>
 }
 state "Reserve: Notify Products Reserved" as state6<<CustomStyle1>>
 state "Ship: Packaging and Shipping" as state7<<CustomStyle2>>
 state "Ship: Notify Successful Shipping" as state8<<CustomStyle2>>
 state "Ship: Notify Packaging and Shipping Failed" as state9<<CustomStyle2>>
 state "Initial: Notify Fraudulent Customer" as state10<<CustomStyle0>>
-state "Ship: Order Shipping Failed" as state11<<CustomStyle2>>
-state "Ship: Order Shipped Successfully" as state12<<CustomStyle2>>
+state "Order Shipping Failed" as state11<<aslFail>>
+state "Order Shipped Successfully" as state12<<aslSucceed>>
 state "Initial: Notify Invalid Input" as state13<<CustomStyle0>>
 [*] --> state1
 state1 --> state13
