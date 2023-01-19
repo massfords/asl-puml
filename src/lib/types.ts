@@ -5,6 +5,7 @@ import {
   LineConfig,
   NoteConfig,
   StateConfig,
+  StateStyle,
 } from "./generated/config";
 
 export interface StateHints {
@@ -60,6 +61,7 @@ export interface UserSpecifiedConfig {
     compositeStates?: Record<string, string>;
     comments?: Record<string, NoteConfig>;
     excludeCatchComment?: boolean;
+    stateStyles?: StateStyle[];
     lines?: {
       fromCatch?: LineConfig;
       toFail?: LineConfig;

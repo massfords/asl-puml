@@ -67,6 +67,7 @@ export const toConfig = (
           ...configFromUsr.theme.states?.Task,
         },
       },
+      stateStyles: configFromUsr.theme.stateStyles ?? [],
       excludeCatchComment: Boolean(configFromUsr.theme.excludeCatchComment),
     },
   };

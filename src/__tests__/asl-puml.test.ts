@@ -46,6 +46,24 @@ describe("unit tests for generating puml diagrams", () => {
         },
       },
     });
+    configByFileName.set("aws-example-ship-order.asl.json", {
+      theme: {
+        stateStyles: [
+          {
+            pattern: "^Initial:.*$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Reserve:.*$",
+            color: "#455ea1",
+          },
+          {
+            pattern: "^Ship:.*$",
+            color: "#70458d",
+          },
+        ],
+      },
+    });
     configByFileName.set("aws-example-execute_athena_query.asl.json", {
       theme: {
         comments: {},

@@ -1,8 +1,8 @@
 {
     "Comment": "Handle new order events complete shipping.",
-    "StartAt": "Validate Input",
+    "StartAt": "Initial: Validate Input",
     "States": {
-      "Validate Input": {
+      "Initial: Validate Input": {
         "Type": "Choice",
         "Choices": [
           {
@@ -26,12 +26,12 @@
                 }
               }
             ],
-            "Next": "Notify Invalid Input"
+            "Next": "Initial: Notify Invalid Input"
           }
         ],
-        "Default": "Get Customer Status"
+        "Default": "Initial: Get Customer Status"
       },
-      "Get Customer Status": {
+      "Initial: Get Customer Status": {
         "Type": "Task",
         "Resource": "arn:aws:states:::lambda:invoke",
         "OutputPath": "$.Payload",
@@ -59,35 +59,35 @@
             "MaxAttempts": 5
           }
         ],
-        "Next": "Do Fraud Check"
+        "Next": "Initial: Do Fraud Check"
       },
-      "Do Fraud Check": {
+      "Initial: Do Fraud Check": {
         "Type": "Choice",
         "Choices": [
           {
             "Variable": "$.status",
             "StringEquals": "fraudulent",
-            "Next": "Notify Fraudulent Customer"
+            "Next": "Initial: Notify Fraudulent Customer"
           }
         ],
-        "Default": "Notify New Order"
+        "Default": "Initial: Notify New Order"
       },
-      "Notify New Order": {
+      "Initial: Notify New Order": {
         "Type": "Task",
         "Resource": "arn:aws:states:::sns:publish",
         "Parameters": {
           "Message.$": "$$.Execution.Input",
           "TopicArn": "${SnsNewOrderTopic}"
         },
-        "Next": "Reserve Products"
+        "Next": "Reserve: Products"
       },
-      "Reserve Products": {
+      "Reserve: Products": {
         "Type": "Map",
-        "Next": "Notify Products Reserved",
+        "Next": "Reserve: Notify Products Reserved",
         "Iterator": {
-          "StartAt": "Reserve Product",
+          "StartAt": "Reserve: Product",
           "States": {
-            "Reserve Product": {
+            "Reserve: Product": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
@@ -115,15 +115,15 @@
                 {
                   "Variable": "$.reservation_status",
                   "StringEquals": "temporarily-unavailable",
-                  "Next": "Notify Delayed"
+                  "Next": "Reserve: Notify Delayed"
                 }
               ],
-              "Default": "Reservation Successful"
+              "Default": "Reserve: Successful"
             },
-            "Reservation Successful": {
+            "Reserve: Successful": {
               "Type": "Succeed"
             },
-            "Notify Delayed": {
+            "Reserve: Notify Delayed": {
               "Type": "Task",
               "Resource": "arn:aws:states:::events:putEvents",
               "Parameters": {
@@ -141,20 +141,20 @@
                   }
                 ]
               },
-              "Next": "Wait for availability",
+              "Next": "Reserve: Wait for availability",
               "ResultPath": null
             },
-            "Wait for availability": {
+            "Reserve: Wait for availability": {
               "Type": "Wait",
               "Seconds": 10,
-              "Next": "Reserve Product"
+              "Next": "Reserve: Product"
             }
           }
         },
         "ItemsPath": "$$.Execution.Input.detail.products",
         "ResultPath": "$.reservations"
       },
-      "Notify Products Reserved": {
+      "Reserve: Notify Products Reserved": {
         "Type": "Task",
         "Resource": "arn:aws:states:::events:putEvents",
         "Parameters": {
@@ -170,10 +170,10 @@
             }
           ]
         },
-        "Next": "Initate Packaging and Shipping",
+        "Next": "Ship: Packaging and Shipping",
         "ResultPath": null
       },
-      "Initate Packaging and Shipping": {
+      "Ship: Packaging and Shipping": {
         "Type": "Task",
         "Resource": "arn:aws:states:::sqs:sendMessage.waitForTaskToken",
         "Parameters": {
@@ -184,19 +184,19 @@
             "token.$": "$$.Task.Token"
           }
         },
-        "Next": "Notify Successful Shipping",
+        "Next": "Ship: Notify Successful Shipping",
         "TimeoutSeconds": 10800,
         "Catch": [
           {
             "ErrorEquals": [
               "States.TaskFailed"
             ],
-            "Next": "Notify Packaging and Shipping Failed",
+            "Next": "Ship: Notify Packaging and Shipping Failed",
             "ResultPath": "$.errors"
           }
         ]
       },
-      "Notify Successful Shipping": {
+      "Ship: Notify Successful Shipping": {
         "Type": "Task",
         "Resource": "arn:aws:states:::events:putEvents",
         "Parameters": {
@@ -212,10 +212,10 @@
             }
           ]
         },
-        "Next": "Order Shipped Successfully",
+        "Next": "Ship: Order Shipped Successfully",
         "ResultPath": null
       },
-      "Notify Packaging and Shipping Failed": {
+      "Ship: Notify Packaging and Shipping Failed": {
         "Type": "Task",
         "Resource": "arn:aws:states:::events:putEvents",
         "Parameters": {
@@ -233,9 +233,9 @@
             }
           ]
         },
-        "Next": "Order Shipping Failed"
+        "Next": "Ship: Order Shipping Failed"
       },
-      "Notify Fraudulent Customer": {
+      "Initial: Notify Fraudulent Customer": {
         "Type": "Task",
         "Resource": "arn:aws:states:::events:putEvents",
         "Parameters": {
@@ -252,17 +252,17 @@
             }
           ]
         },
-        "Next": "Order Shipping Failed",
+        "Next": "Ship: Order Shipping Failed",
         "ResultPath": null
       },
-      "Order Shipping Failed": {
+      "Ship: Order Shipping Failed": {
         "Type": "Fail",
         "Error": "order_shipping_failed"
       },
-      "Order Shipped Successfully": {
+      "Ship: Order Shipped Successfully": {
         "Type": "Succeed"
       },
-      "Notify Invalid Input": {
+      "Initial: Notify Invalid Input": {
         "Type": "Task",
         "Resource": "arn:aws:states:::events:putEvents",
         "Parameters": {
@@ -289,7 +289,7 @@
             "MaxAttempts": 3
           }
         ],
-        "Next": "Order Shipping Failed",
+        "Next": "Ship: Order Shipping Failed",
         "ResultPath": null
       }
     }

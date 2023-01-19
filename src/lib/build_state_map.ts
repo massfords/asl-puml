@@ -19,6 +19,15 @@ const compute_stereotype = (
   if (hints.json.Type === AslStateType.Succeed && hints.parent !== null) {
     return "<<aslSucceedLocal>>";
   }
+
+  let idx = 0;
+  for (const { pattern } of config.theme.stateStyles ?? []) {
+    const customPattern = new RegExp(pattern, "iu");
+    if (customPattern.test(stateName)) {
+      return `<<CustomStyle${idx}>>`;
+    }
+    idx += 1;
+  }
   return `<<asl${hints.json.Type}>>`;
 };
 

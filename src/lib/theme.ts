@@ -60,7 +60,15 @@ ${[
   .filter((stateType) => isStateTypeUsed(stateType))
   .map((stateType) => emitStateStyle(stateType))
   .join("\n")}
-    BackgroundColor<<Compensate>> ${config.theme.compensation.color}
+    BackgroundColor<<Compensate>> ${config.theme.compensation.color}${(
+    config.theme.stateStyles ?? []
+  )
+    .map(({ color }, index) => {
+      return `
+    FontColor<<CustomStyle${index}>> automatic
+    BackgroundColor<<CustomStyle${index}>> ${color}`;
+    })
+    .join("")}
 }
 `;
 };

@@ -40,6 +40,7 @@ export interface Theme {
     Task: StateConfig;
     Wait: StateConfig;
   };
+  stateStyles?: StateStyle[];
 }
 export interface CompensationConfig {
   pattern: string;
@@ -61,4 +62,8 @@ export interface LineConfig {
 export interface StateConfig {
   BackgroundColor: Color;
   FontColor?: Color | "automatic";
+}
+export interface StateStyle {
+  pattern: string;
+  color: Color;
 }

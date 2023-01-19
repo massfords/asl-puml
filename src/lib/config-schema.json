@@ -22,6 +22,20 @@
       "required": ["pattern", "color"],
       "additionalProperties": false
     },
+    "stateStyle": {
+      "title": "State Style",
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "type": "string"
+        },
+        "color": {
+          "$ref": "#/$defs/color"
+        }
+      },
+      "required": ["pattern", "color"],
+      "additionalProperties": false
+    },
     "line": {
       "title": "Line Config",
       "type": "object",
@@ -160,6 +174,12 @@
             }
           },
           "additionalProperties": false
+        },
+        "stateStyles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stateStyle"
+          }
         }
       },
       "additionalProperties": false
