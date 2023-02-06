@@ -102,6 +102,10 @@
         "compensation": {
           "$ref": "#/$defs/compensation"
         },
+        "wrapStateNamesAt": {
+          "type": "integer",
+          "minimum": 20
+        },
         "compositeStates": {
           "type": "object",
           "patternProperties": {

@@ -12,6 +12,7 @@ export interface Config {
 }
 export interface Theme {
   compensation: CompensationConfig;
+  wrapStateNamesAt?: number;
   compositeStates: {
     /**
      * This interface was referenced by `undefined`'s JSON-Schema definition

@@ -21,9 +21,12 @@ export const decls: PumlBuilder = (definition, state_map, config: Config) => {
       return;
     }
     accum.emitted.add(stateName);
-    const stateDecl = `state "${stateName}" as state${hints.id}${
-      hints?.stereotype ?? ""
-    }`;
+    const stateDecl = `state "${wordwrap(stateName, {
+      indent: "",
+      newline: "\\n",
+      width: config.theme.wrapStateNamesAt ?? 30,
+      trim: false,
+    })}" as state${hints.id}${hints?.stereotype ?? ""}`;
     const isContainer = ["Map", "Parallel"].indexOf(hints.json.Type) !== -1;
     const brace = isContainer ? " {" : "";
     accum.lines.push(`${stateDecl}${brace}`);

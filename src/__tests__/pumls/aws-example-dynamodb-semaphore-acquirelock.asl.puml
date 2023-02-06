@@ -24,7 +24,7 @@ state "Acquire Lock" as state1<<aslTask>>
 state "Initialize Lock Item" as state2<<aslTask>>
 state "Get Current Lock Record" as state3<<aslTask>>
 state "Check If Lock Already Acquired" as state4<<Choice>>
-state "Continue Because Lock Was Already Acquired" as state5<<aslPass>>
+state "Continue Because Lock Was \nAlready Acquired" as state5<<aslPass>>
 state "Wait to Get Lock" as state6<<aslWait>>
 }
 state "Do Work" as compositeState2 ##[dashed] {
@@ -32,7 +32,7 @@ state "Here" as state7<<aslPass>>
 state "You" as state8<<aslPass>>
 state "Do" as state9<<aslPass>>
 state "Work" as state10<<aslPass>>
-state "Run Lambda Function With Controlled Concurrency" as state11<<aslTask>>
+state "Run Lambda Function With \nControlled Concurrency" as state11<<aslTask>>
 }
 state "Release" as state12<<aslTask>>
 state "Success State" as state13<<aslSucceed>>

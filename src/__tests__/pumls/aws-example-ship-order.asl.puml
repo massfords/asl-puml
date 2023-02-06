@@ -38,11 +38,11 @@ state "Successful" as state16<<aslSucceedLocal>>
 state "Reserve: Notify Delayed" as state17<<CustomStyle1>>
 state "Wait for availability" as state18<<aslWait>>
 }
-state "Reserve: Notify Products Reserved" as state6<<CustomStyle1>>
+state "Reserve: Notify Products \nReserved" as state6<<CustomStyle1>>
 state "Ship: Packaging and Shipping" as state7<<CustomStyle2>>
-state "Ship: Notify Successful Shipping" as state8<<CustomStyle2>>
-state "Ship: Notify Packaging and Shipping Failed" as state9<<CustomStyle2>>
-state "Initial: Notify Fraudulent Customer" as state10<<CustomStyle0>>
+state "Ship: Notify Successful \nShipping" as state8<<CustomStyle2>>
+state "Ship: Notify Packaging and \nShipping Failed" as state9<<CustomStyle2>>
+state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle0>>
 state "Order Shipping Failed" as state11<<aslFail>>
 state "Order Shipped Successfully" as state12<<aslSucceed>>
 state "Initial: Notify Invalid Input" as state13<<CustomStyle0>>

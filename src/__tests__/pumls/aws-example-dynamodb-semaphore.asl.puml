@@ -32,7 +32,7 @@ end note
 state "Initialize Lock Item" as state6<<aslTask>>
 state "Get Current Lock Record" as state7<<aslTask>>
 state "Check If Lock Already Acquired" as state8<<Choice>>
-state "Continue Because Lock Was Already Acquired" as state9<<aslPass>>
+state "Continue Because Lock Was \nAlready Acquired" as state9<<aslPass>>
 state "Wait to Get Lock" as state10<<aslWait>>
 }
 }
@@ -42,7 +42,7 @@ state "Here" as state11<<aslPass>>
 state "You" as state12<<aslPass>>
 state "Do" as state13<<aslPass>>
 state "Work" as state14<<aslPass>>
-state "Run Lambda Function With Controlled Concurrency" as state15<<aslTask>>
+state "Run Lambda Function With \nControlled Concurrency" as state15<<aslTask>>
 }
 }
 state "Release Lock" as state3<<aslTask>>
