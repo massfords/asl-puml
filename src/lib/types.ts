@@ -57,6 +57,7 @@ export interface ContainerStateConfig {
 
 export interface UserSpecifiedConfig {
   theme: {
+    wrapStateNamesAt?: number;
     compensation?: CompensationConfig;
     compositeStates?: Record<string, string>;
     comments?: Record<string, NoteConfig>;

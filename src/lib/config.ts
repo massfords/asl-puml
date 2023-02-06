@@ -13,6 +13,7 @@ export const toConfig = (
   }
   const config: Config = {
     theme: {
+      wrapStateNamesAt: configFromUsr.theme.wrapStateNamesAt,
       compositeStates: configFromUsr.theme.compositeStates ?? {},
       comments: configFromUsr.theme.comments ?? {},
       skinparams: {
