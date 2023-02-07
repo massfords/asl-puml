@@ -11,7 +11,15 @@ export const asl_to_puml = (
   definition: AslDefinition,
   userSpecifiedConfig?: UserSpecifiedConfig | null
 ): { isValid: true; puml: string } | { isValid: false; message: string } => {
-  aslValidator(definition);
+  try {
+    aslValidator(definition);
+  } catch (err: unknown) {
+    const castErr: { message?: string } = err as { message?: string };
+    return {
+      isValid: false,
+      message: castErr.message ?? "unknown",
+    };
+  }
 
   const response = toConfig(userSpecifiedConfig);
   if (!response.isValid) {

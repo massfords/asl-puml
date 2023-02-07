@@ -48,5 +48,5 @@ try {
     fail(response.message);
   }
 } catch (e: unknown) {
-  fail(`asl-puml exception: ${JSON.stringify(e)}`);
+  fail("asl-puml exception:");
 }
