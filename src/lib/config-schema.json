@@ -31,6 +31,9 @@
         },
         "color": {
           "$ref": "#/$defs/color"
+        },
+        "deadPath": {
+          "type": "boolean"
         }
       },
       "required": ["pattern", "color"],
@@ -133,6 +136,12 @@
               "$ref": "#/$defs/line"
             },
             "toFail": {
+              "$ref": "#/$defs/line"
+            },
+            "active": {
+              "$ref": "#/$defs/line"
+            },
+            "deadPath": {
               "$ref": "#/$defs/line"
             }
           },

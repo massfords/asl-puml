@@ -63,9 +63,9 @@ ${[
     BackgroundColor<<Compensate>> ${config.theme.compensation.color}${(
     config.theme.stateStyles ?? []
   )
-    .map(({ color }, index) => {
+    .map(({ color, deadPath }, index) => {
       return `
-    FontColor<<CustomStyle${index}>> automatic
+    FontColor<<CustomStyle${index}>> ${deadPath ? "gray" : "automatic"}
     BackgroundColor<<CustomStyle${index}>> ${color}`;
     })
     .join("")}

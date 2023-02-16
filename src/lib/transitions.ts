@@ -10,12 +10,21 @@ export const transitions: PumlBuilder = (definition, state_map, config) => {
   const lineFromStyle = (lineConfig: LineConfig): string => {
     return `-[${lineConfig.bold ? "bold," : ""}${lineConfig.color}]->`;
   };
+  const deadpathStyle = config.theme.lines.deadPath ?? { color: "#lightgray" };
   const emit_transition_with_color = (args: {
     srcHint: StateHints;
     targetHint?: StateHints | null;
     extraHints?: { label?: string | null; fromCatch?: true };
   }) => {
     const { srcHint, targetHint, extraHints } = args;
+    // if non-null, the deadpathLine will be used instead of
+    // the transitionLine variable that's set along with the
+    // RHS. We set both in that logic but will ignore the
+    // transitionLine
+    const deadpathLine: string | null =
+      srcHint.deadPath || targetHint?.deadPath
+        ? lineFromStyle(deadpathStyle)
+        : null;
     const LHS = `state${srcHint.id}`;
     let transitionLine = null;
     let RHS = null;
@@ -44,8 +53,8 @@ export const transitions: PumlBuilder = (definition, state_map, config) => {
       transitionLine = "-->";
     }
     if (transitionLine && RHS) {
-      lines.push(`${LHS} ${transitionLine} ${RHS}`);
-      if (label) {
+      lines.push(`${LHS} ${deadpathLine ?? transitionLine} ${RHS}`);
+      if (label && !deadpathLine) {
         lines.push(`note on link
 ${label}
 end note`);
@@ -108,24 +117,16 @@ end note`);
         catchTransitions.add(catchKey);
         const catchTargetHints = state_map.get(katch.Next);
         invariant(catchTargetHints);
-        if (catchTargetHints.json.Type === "Fail") {
-          lines.push(
-            `state${hints.id} ${lineFromStyle(
-              config.theme.lines.toFail
-            )} state${catchTargetHints.id}`
-          );
-        } else {
-          emit_transition_with_color({
-            srcHint: hints,
-            targetHint: catchTargetHints,
-            extraHints: {
-              label: config.theme.excludeCatchComment
-                ? null
-                : katch.Comment ?? null,
-              fromCatch: true,
-            },
-          });
-        }
+        emit_transition_with_color({
+          srcHint: hints,
+          targetHint: catchTargetHints,
+          extraHints: {
+            label: config.theme.excludeCatchComment
+              ? null
+              : katch.Comment ?? null,
+            fromCatch: true,
+          },
+        });
       });
     }
   });

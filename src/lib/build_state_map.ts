@@ -7,30 +7,39 @@ const compute_stereotype = (
   stateName: StateName,
   hints: StateHints,
   config: Config
-) => {
-  if (hints.json.Type === AslStateType.Choice) {
-    return "<<Choice>>";
+): { stereotype: string; deadPath?: boolean } => {
+  let idx = 0;
+  for (const { pattern, deadPath } of config.theme.stateStyles ?? []) {
+    const customPattern = new RegExp(pattern, "iu");
+    if (customPattern.test(stateName)) {
+      if (hints.json.Type === AslStateType.Choice) {
+        return { stereotype: "<<Choice>>" };
+      }
+      if (
+        hints.json.Type === AslStateType.Map ||
+        hints.json.Type === AslStateType.Parallel
+      ) {
+        return { stereotype: `<<asl${hints.json.Type}>>` };
+      }
+      return { stereotype: `<<CustomStyle${idx}>>`, deadPath };
+    }
+    idx += 1;
   }
+
+  if (hints.json.Type === AslStateType.Choice) {
+    return { stereotype: "<<Choice>>" };
+  }
+
   const compensatePattern = new RegExp(config.theme.compensation.pattern, "iu");
   if (compensatePattern.test(stateName)) {
-    return "<<Compensate>>";
+    return { stereotype: "<<Compensate>>" };
   }
 
   if (hints.json.Type === AslStateType.Succeed && hints.parent !== null) {
-    return "<<aslSucceedLocal>>";
+    return { stereotype: "<<aslSucceedLocal>>" };
   }
 
-  if (hints.json.Type === "Task") {
-    let idx = 0;
-    for (const { pattern } of config.theme.stateStyles ?? []) {
-      const customPattern = new RegExp(pattern, "iu");
-      if (customPattern.test(stateName)) {
-        return `<<CustomStyle${idx}>>`;
-      }
-      idx += 1;
-    }
-  }
-  return `<<asl${hints.json.Type}>>`;
+  return { stereotype: `<<asl${hints.json.Type}>>` };
 };
 
 export const build_state_map = (
@@ -68,11 +77,13 @@ export const build_state_map = (
           const child_value = state_map.get(stateName);
           invariant(child_value);
           child_value.parent = key;
-          child_value.stereotype = compute_stereotype(
+          const { stereotype, deadPath } = compute_stereotype(
             stateName,
             child_value,
             config
           );
+          child_value.stereotype = stereotype;
+          child_value.deadPath = deadPath;
         });
       });
     }
@@ -104,7 +115,13 @@ export const build_state_map = (
   });
 
   state_map.forEach((hints, stateName) => {
-    hints.stereotype = compute_stereotype(stateName, hints, config);
+    const { stereotype, deadPath } = compute_stereotype(
+      stateName,
+      hints,
+      config
+    );
+    hints.deadPath = deadPath;
+    hints.stereotype = stereotype;
   });
 
   return state_map;

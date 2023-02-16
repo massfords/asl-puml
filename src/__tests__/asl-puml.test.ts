@@ -46,24 +46,85 @@ describe("unit tests for generating puml diagrams", () => {
         },
       },
     });
+    // configByFileName.set("aws-example-ship-order.asl.json", {
+    //   theme: {
+    //     stateStyles: [
+    //       {
+    //         pattern: "^Initial:.*$",
+    //         color: "#0070a3",
+    //       },
+    //       {
+    //         pattern: "^Reserve:.*$",
+    //         color: "#455ea1",
+    //       },
+    //       {
+    //         pattern: "^Ship:.*$",
+    //         color: "#70458d",
+    //       },
+    //     ],
+    //   },
+    // });
     configByFileName.set("aws-example-ship-order.asl.json", {
       theme: {
+        lines: {
+          deadPath: {
+            color: "#lightgray",
+          },
+        },
         stateStyles: [
           {
-            pattern: "^Initial:.*$",
+            pattern: "^Initial: Get Customer Status$",
             color: "#0070a3",
           },
           {
-            pattern: "^Reserve:.*$",
-            color: "#455ea1",
+            pattern: "^Initial: Notify New Order$",
+            color: "#0070a3",
           },
           {
-            pattern: "^Ship:.*$",
-            color: "#70458d",
+            pattern: "^Reserve: Products$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Reserve: Product$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Wait for availability$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Successful$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Reserve: Notify Delayed$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Reserve: Notify Products Reserved$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Ship: Packaging and Shipping$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Ship: Notify Successful Shipping$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^Order Shipped Successfully$",
+            color: "#0070a3",
+          },
+          {
+            pattern: "^.*$",
+            color: "#whitesmoke",
+            deadPath: true,
           },
         ],
       },
     });
+
     configByFileName.set("aws-example-execute_athena_query.asl.json", {
       theme: {
         comments: {},

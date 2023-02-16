@@ -27,6 +27,8 @@ export interface Theme {
   lines: {
     fromCatch: LineConfig;
     toFail: LineConfig;
+    active?: LineConfig;
+    deadPath?: LineConfig;
   };
   skinparams: {
     ArrowColor: Color;
@@ -67,4 +69,5 @@ export interface StateConfig {
 export interface StateStyle {
   pattern: string;
   color: Color;
+  deadPath?: boolean;
 }

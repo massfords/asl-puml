@@ -14,6 +14,7 @@ export interface StateHints {
   stereotype: string | null;
   id: number;
   json: StateJsonNode;
+  deadPath?: boolean;
 }
 
 export type StateName = string;
@@ -66,6 +67,7 @@ export interface UserSpecifiedConfig {
     lines?: {
       fromCatch?: LineConfig;
       toFail?: LineConfig;
+      deadPath?: LineConfig;
     };
     skinparams?: {
       ArrowColor: Color;

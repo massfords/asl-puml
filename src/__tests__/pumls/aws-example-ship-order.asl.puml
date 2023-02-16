@@ -23,49 +23,64 @@ skinparam state {
     FontColor<<CustomStyle0>> automatic
     BackgroundColor<<CustomStyle0>> #0070a3
     FontColor<<CustomStyle1>> automatic
-    BackgroundColor<<CustomStyle1>> #455ea1
+    BackgroundColor<<CustomStyle1>> #0070a3
     FontColor<<CustomStyle2>> automatic
-    BackgroundColor<<CustomStyle2>> #70458d
+    BackgroundColor<<CustomStyle2>> #0070a3
+    FontColor<<CustomStyle3>> automatic
+    BackgroundColor<<CustomStyle3>> #0070a3
+    FontColor<<CustomStyle4>> automatic
+    BackgroundColor<<CustomStyle4>> #0070a3
+    FontColor<<CustomStyle5>> automatic
+    BackgroundColor<<CustomStyle5>> #0070a3
+    FontColor<<CustomStyle6>> automatic
+    BackgroundColor<<CustomStyle6>> #0070a3
+    FontColor<<CustomStyle7>> automatic
+    BackgroundColor<<CustomStyle7>> #0070a3
+    FontColor<<CustomStyle8>> automatic
+    BackgroundColor<<CustomStyle8>> #0070a3
+    FontColor<<CustomStyle9>> automatic
+    BackgroundColor<<CustomStyle9>> #0070a3
+    FontColor<<CustomStyle10>> automatic
+    BackgroundColor<<CustomStyle10>> #0070a3
+    FontColor<<CustomStyle11>> gray
+    BackgroundColor<<CustomStyle11>> #whitesmoke
 }
 state "Initial: Validate Input" as state1<<Choice>>
 state "Initial: Get Customer Status" as state2<<CustomStyle0>>
 state "Do Fraud Check" as state3<<Choice>>
-state "Initial: Notify New Order" as state4<<CustomStyle0>>
+state "Initial: Notify New Order" as state4<<CustomStyle1>>
 state "Reserve: Products" as state5<<aslMap>> {
-state "Reserve: Product" as state14<<CustomStyle1>>
+state "Reserve: Product" as state14<<CustomStyle3>>
 state "Choice" as state15<<Choice>>
-state "Successful" as state16<<aslSucceedLocal>>
-state "Reserve: Notify Delayed" as state17<<CustomStyle1>>
-state "Wait for availability" as state18<<aslWait>>
+state "Successful" as state16<<CustomStyle5>>
+state "Reserve: Notify Delayed" as state17<<CustomStyle6>>
+state "Wait for availability" as state18<<CustomStyle4>>
 }
-state "Reserve: Notify Products \nReserved" as state6<<CustomStyle1>>
-state "Ship: Packaging and Shipping" as state7<<CustomStyle2>>
-state "Ship: Notify Successful \nShipping" as state8<<CustomStyle2>>
-state "Ship: Notify Packaging and \nShipping Failed" as state9<<CustomStyle2>>
-state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle0>>
-state "Order Shipping Failed" as state11<<aslFail>>
-state "Order Shipped Successfully" as state12<<aslSucceed>>
-state "Initial: Notify Invalid Input" as state13<<CustomStyle0>>
+state "Reserve: Notify Products \nReserved" as state6<<CustomStyle7>>
+state "Ship: Packaging and Shipping" as state7<<CustomStyle8>>
+state "Ship: Notify Successful \nShipping" as state8<<CustomStyle9>>
+state "Ship: Notify Packaging and \nShipping Failed" as state9<<CustomStyle11>>
+state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle11>>
+state "Order Shipping Failed" as state11<<CustomStyle11>>
+state "Order Shipped Successfully" as state12<<CustomStyle10>>
+state "Initial: Notify Invalid Input" as state13<<CustomStyle11>>
 [*] --> state1
-state1 --> state13
+state1 -[#lightgray]-> state13
 state1 --> state2
 state2 --> state3
-state3 --> state10
-note on link
-fraudulent
-end note
+state3 -[#lightgray]-> state10
 state3 --> state4
 state4 --> state5
 state5 --> state6
 state6 --> state7
 state7 --> state8
-state7 -[bold,#orange]-> state9
+state7 -[#lightgray]-> state9
 state8 --> state12
-state9 -[#pink]-> state11
-state10 -[#pink]-> state11
-state11 -[#pink]-> [*]
+state9 -[#lightgray]-> state11
+state10 -[#lightgray]-> state11
+state11 -[#lightgray]-> [*]
 state12 --> [*]
-state13 -[#pink]-> state11
+state13 -[#lightgray]-> state11
 state14 --> state15
 state15 --> state17
 note on link
