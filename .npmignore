@@ -7,4 +7,3 @@ __tests__
 .github
 *.tgz
 *.test.js
-**/*.ts
