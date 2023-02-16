@@ -36,3 +36,5 @@ export const asl_to_puml = (
 
   return { isValid: true, puml };
 };
+
+export * from "./lib/types";
