@@ -1,7 +1,7 @@
 import { DefaultConfig, UserSpecifiedConfig } from "./types";
 import Ajv from "ajv";
 import config from "./config-schema.json";
-import { Config } from "./generated/config";
+import type { Config } from "./generated/config";
 
 const ajv: Ajv = new Ajv({ schemas: [config] });
 
@@ -13,7 +13,7 @@ export const toConfig = (
   }
   const config: Config = {
     theme: {
-      wrapStateNamesAt: configFromUsr.theme.wrapStateNamesAt,
+      wrapStateNamesAt: configFromUsr.theme.wrapStateNamesAt ?? 30,
       compositeStates: configFromUsr.theme.compositeStates ?? {},
       comments: configFromUsr.theme.comments ?? {},
       skinparams: {

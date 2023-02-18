@@ -1,6 +1,6 @@
 import { JSONPath } from "jsonpath-plus";
 import { AslStatesNode, AslStateType, StateHints, StateName } from "./types";
-import { Config } from "./generated/config";
+import type { Config } from "./generated/config";
 import invariant from "tiny-invariant";
 
 const compute_stereotype = (
@@ -21,7 +21,10 @@ const compute_stereotype = (
       ) {
         return { stereotype: `<<asl${hints.json.Type}>>` };
       }
-      return { stereotype: `<<CustomStyle${idx}>>`, deadPath };
+      return {
+        stereotype: `<<CustomStyle${idx}>>`,
+        deadPath: deadPath ?? false,
+      };
     }
     idx += 1;
   }
@@ -55,11 +58,13 @@ export const build_state_map = (
   });
   foundStates.forEach((states) => {
     Object.keys(states).forEach((stateName) => {
+      const json = states[stateName];
+      invariant(json);
       state_map.set(stateName, {
         parent: null,
         stereotype: null,
         id,
-        json: states[stateName],
+        json,
       });
       id += 1;
     });
@@ -83,7 +88,7 @@ export const build_state_map = (
             config
           );
           child_value.stereotype = stereotype;
-          child_value.deadPath = deadPath;
+          child_value.deadPath = deadPath ?? false;
         });
       });
     }
@@ -120,7 +125,7 @@ export const build_state_map = (
       hints,
       config
     );
-    hints.deadPath = deadPath;
+    hints.deadPath = deadPath ?? false;
     hints.stereotype = stereotype;
   });
 

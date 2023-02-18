@@ -1,6 +1,6 @@
 import { JSONPath } from "jsonpath-plus";
-import { AslChoiceTransitionNode, PumlBuilder, StateHints } from "./types";
-import { LineConfig } from "./generated/config";
+import type { AslChoiceTransitionNode, PumlBuilder, StateHints } from "./types";
+import type { LineConfig } from "./generated/config";
 import invariant from "tiny-invariant";
 
 export const transitions: PumlBuilder = (definition, state_map, config) => {

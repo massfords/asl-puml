@@ -1,4 +1,4 @@
-import { AslDefinition, UserSpecifiedConfig } from "../lib/types";
+import type { AslDefinition, UserSpecifiedConfig } from "../lib/types";
 import fs from "fs";
 import path from "path";
 import { asl_to_puml } from "../asl-puml";
