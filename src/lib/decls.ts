@@ -116,6 +116,7 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
     if (matches.length > 0) {
       // the logical header has matches, emit them
       const compositeStateLabel = compositeStates[pattern];
+      invariant(compositeStateLabel, "missing state label");
       accum.lines.push(
         `state "${compositeStateLabel}" as compositeState${compositeStatesCounter} ##[dashed] {`
       );
