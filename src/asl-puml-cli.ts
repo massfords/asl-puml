@@ -4,8 +4,8 @@ import fs from "fs";
 import path from "path";
 import { program } from "commander";
 
-import { asl_to_puml } from "../src/asl-puml";
-import type { AslDefinition, UserSpecifiedConfig } from "../src/lib/types";
+import { asl_to_puml } from "../src";
+import type { AslDefinition, UserSpecifiedConfig } from "../src";
 
 function doneValid() {
   process.exit(0);

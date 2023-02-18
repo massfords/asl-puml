@@ -1,10 +1,10 @@
 {
   "name": "asl-puml",
-  "version": "0.14.4",
-  "description": "Generates a plant uml file from a valid ASL file",
-  "main": "./dist/asl-puml.js",
+  "version": "0.14.5",
+  "description": "Generates a plant uml file from a valid JSON ASL file",
+  "main": "./dist/index.js",
   "bin": {
-    "asl-puml": "./dist/bin/asl-puml.js"
+    "asl-puml": "./dist/asl-puml-cli.js"
   },
   "scripts": {
     "build": "npm run generate && npx tsc",

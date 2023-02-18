@@ -1,11 +1,11 @@
 import type { AslDefinition, UserSpecifiedConfig } from "./lib/types";
-import { theme } from "./lib/theme";
-import { decls } from "./lib/decls";
-import { footer } from "./lib/footer";
-import { build_state_map } from "./lib/build_state_map";
-import { transitions } from "./lib/transitions";
 import { aslValidator } from "./lib/validator";
 import { toConfig } from "./lib/config";
+import { build_state_map } from "./lib/build_state_map";
+import { theme } from "./lib/theme";
+import { decls } from "./lib/decls";
+import { transitions } from "./lib/transitions";
+import { footer } from "./lib/footer";
 
 export const asl_to_puml = (
   definition: AslDefinition,
@@ -36,5 +36,3 @@ export const asl_to_puml = (
 
   return { isValid: true, puml };
 };
-
-export * from "./lib/types";
