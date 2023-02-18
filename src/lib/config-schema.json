@@ -107,7 +107,7 @@
         },
         "wrapStateNamesAt": {
           "type": "integer",
-          "minimum": 20
+          "minimum": 10
         },
         "compositeStates": {
           "type": "object",
