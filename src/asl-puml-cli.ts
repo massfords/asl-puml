@@ -3,9 +3,8 @@
 import fs from "fs";
 import path from "path";
 import { program } from "commander";
-
-import { asl_to_puml } from "../src";
-import type { AslDefinition, UserSpecifiedConfig } from "../src";
+import type { AslDefinition, UserSpecifiedConfig } from "./lib/types";
+import { asl_to_puml } from "./asl-puml";
 
 function doneValid() {
   process.exit(0);
