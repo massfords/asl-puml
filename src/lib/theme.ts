@@ -1,7 +1,7 @@
 import { AslStateType, PumlBuilder } from "./types";
 import { JSONPath } from "jsonpath-plus";
 
-export const theme: PumlBuilder = (definition, state_map, config): string => {
+export const theme: PumlBuilder = (definition, _state_map, config): string => {
   const emitStateStyle = (stateType: AslStateType): string => {
     switch (stateType) {
       case AslStateType.Choice:

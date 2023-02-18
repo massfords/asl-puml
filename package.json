@@ -1,6 +1,6 @@
 {
   "name": "asl-puml",
-  "version": "0.14.3",
+  "version": "0.14.4",
   "description": "Generates a plant uml file from a valid ASL file",
   "main": "./dist/asl-puml.js",
   "bin": {
@@ -37,8 +37,8 @@
     "@typescript-eslint/parser": "^5.30.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.1.0",
     "eslint-plugin-jest": "^26.5.3",
+    "eslint-plugin-prettier": "^4.1.0",
     "jest": "^28.1.1",
     "json-schema-to-typescript": "^11.0.1",
     "prettier": "^2.7.1",
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "ajv": "^8.11.0",
-    "asl-validator": "^3.1.1",
+    "asl-validator": "^3.5.0",
     "commander": "^9.3.0",
     "jsonpath-plus": "^7.0.0",
     "tiny-invariant": "^1.2.0",

@@ -1,4 +1,4 @@
-import { PumlBuilder } from "./types";
+import type { PumlBuilder } from "./types";
 
 export const footer: PumlBuilder = () => `
 @enduml

@@ -5,7 +5,7 @@ import path from "path";
 import { program } from "commander";
 
 import { asl_to_puml } from "../src/asl-puml";
-import { AslDefinition, UserSpecifiedConfig } from "../src/lib/types";
+import type { AslDefinition, UserSpecifiedConfig } from "../src/lib/types";
 
 function doneValid() {
   process.exit(0);

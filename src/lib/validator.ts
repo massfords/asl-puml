@@ -1,4 +1,4 @@
-import { AslDefinition } from "./types";
+import type { AslDefinition } from "./types";
 
 export type ValidatorFunction = (definition: AslDefinition) => {
   isValid: boolean;

@@ -1,4 +1,4 @@
-import { AslDefinition, UserSpecifiedConfig } from "./lib/types";
+import type { AslDefinition, UserSpecifiedConfig } from "./lib/types";
 import { theme } from "./lib/theme";
 import { decls } from "./lib/decls";
 import { footer } from "./lib/footer";
