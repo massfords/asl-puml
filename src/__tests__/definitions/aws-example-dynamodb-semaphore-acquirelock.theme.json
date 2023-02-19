@@ -1,0 +1,9 @@
+{
+  "theme": {
+    "excludeCatchComment": true,
+    "compositeStates": {
+      "^.*Lock.*$": "Get Lock",
+      "^Here|You|Do|Work|(Run Lambda.*)$": "Do Work"
+    }
+  }
+}

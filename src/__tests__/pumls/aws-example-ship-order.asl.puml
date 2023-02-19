@@ -29,9 +29,9 @@ skinparam state {
     FontColor<<CustomStyle3>> automatic
     BackgroundColor<<CustomStyle3>> #0070a3
     FontColor<<CustomStyle4>> automatic
-    BackgroundColor<<CustomStyle4>> #0070a3
+    BackgroundColor<<CustomStyle4>> #74d4ff
     FontColor<<CustomStyle5>> automatic
-    BackgroundColor<<CustomStyle5>> #0070a3
+    BackgroundColor<<CustomStyle5>> #74d4ff
     FontColor<<CustomStyle6>> automatic
     BackgroundColor<<CustomStyle6>> #0070a3
     FontColor<<CustomStyle7>> automatic
@@ -41,7 +41,7 @@ skinparam state {
     FontColor<<CustomStyle9>> automatic
     BackgroundColor<<CustomStyle9>> #0070a3
     FontColor<<CustomStyle10>> automatic
-    BackgroundColor<<CustomStyle10>> #0070a3
+    BackgroundColor<<CustomStyle10>> #74d4ff
     FontColor<<CustomStyle11>> gray
     BackgroundColor<<CustomStyle11>> #whitesmoke
 }

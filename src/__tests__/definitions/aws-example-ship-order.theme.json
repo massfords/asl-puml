@@ -1,0 +1,60 @@
+{
+  "theme": {
+    "lines": {
+      "deadPath": {
+        "color": "#lightgray"
+      }
+    },
+    "stateStyles": [
+      {
+        "pattern": "^Initial: Get Customer Status$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Initial: Notify New Order$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Reserve: Products$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Reserve: Product$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Wait for availability$",
+        "color": "#74d4ff"
+      },
+      {
+        "pattern": "^Successful$",
+        "color": "#74d4ff"
+      },
+      {
+        "pattern": "^Reserve: Notify Delayed$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Reserve: Notify Products Reserved$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Ship: Packaging and Shipping$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Ship: Notify Successful Shipping$",
+        "color": "#0070a3"
+      },
+      {
+        "pattern": "^Order Shipped Successfully$",
+        "color": "#74d4ff"
+      },
+      {
+        "pattern": "^.*$",
+        "color": "#whitesmoke",
+        "deadPath": true
+      }
+    ]
+  }
+}

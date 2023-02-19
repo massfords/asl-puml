@@ -57,24 +57,30 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
     }
 
     // see if there's a note for the state
+    // the theme contains a field for providing regular expressions to match against the
+    // state names. If there's a comment and there's a matching config, then we'll render
+    // the comment in the diagram
     const comment: string | null = hints.json.Comment ?? null;
     if (comment) {
-      const noteConfigs = Object.keys(config.theme.comments)
+      const noteConfig = Object.keys(config.theme.comments)
         .map((pattern) => {
           const firstPeriod = comment.indexOf(".");
+          // find the first config that matches the state name
           return {
             pattern: new RegExp(pattern, "ui"),
             comment:
+              // use the first sentence for the comment
+              // or the whole comment if there's no period
               firstPeriod !== -1
                 ? comment.substring(0, firstPeriod + 1)
                 : comment,
             commentConfig: config.theme.comments[pattern],
           };
         })
-        .filter((entry) => entry.pattern.test(stateName));
-      if (noteConfigs.length > 0) {
-        invariant(noteConfigs[0]);
-        const { comment, commentConfig } = noteConfigs[0];
+        .find((entry) => entry.pattern.test(stateName));
+      // if there's no config, then the comment isn't rendered
+      if (noteConfig) {
+        const { comment, commentConfig } = noteConfig;
         invariant(comment && commentConfig);
         accum.lines.push(`note ${commentConfig.side}`);
         accum.lines.push(

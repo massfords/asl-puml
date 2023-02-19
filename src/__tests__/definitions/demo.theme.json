@@ -1,0 +1,13 @@
+{
+  "theme": {
+    "compositeStates": {
+      "^Fulfill.+$": "Fulfilling"
+    },
+    "comments": {
+      "^.+$": {
+        "width": 30,
+        "side": "left"
+      }
+    }
+  }
+}

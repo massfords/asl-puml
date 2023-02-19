@@ -1,0 +1,11 @@
+{
+  "theme": {
+    "excludeCatchComment": true,
+    "comments": {
+      "Acquire Lock": {
+        "width": 30,
+        "side": "left"
+      }
+    }
+  }
+}
