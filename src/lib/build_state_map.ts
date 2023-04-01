@@ -13,13 +13,16 @@ const compute_stereotype = (
     const customPattern = new RegExp(pattern, "iu");
     if (customPattern.test(stateName)) {
       if (hints.json.Type === AslStateType.Choice) {
-        return { stereotype: "<<Choice>>" };
+        return { stereotype: "<<Choice>>", deadPath: deadPath ?? false };
       }
       if (
         hints.json.Type === AslStateType.Map ||
         hints.json.Type === AslStateType.Parallel
       ) {
-        return { stereotype: `<<asl${hints.json.Type}>>` };
+        return {
+          stereotype: `<<asl${hints.json.Type}>>`,
+          deadPath: deadPath ?? false,
+        };
       }
       return {
         stereotype: `<<CustomStyle${idx}>>`,

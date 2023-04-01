@@ -75,5 +75,61 @@ describe("unit tests for generating puml diagrams", () => {
       //   result.puml
       // );
     });
+
+    test("deadpath", () => {
+      const definition = loadDefinition("aws-example-ship-order.asl.json");
+      const style: UserSpecifiedConfig = {
+        theme: {
+          lines: {
+            deadPath: {
+              color: "#lightgray",
+            },
+          },
+          stateStyles: [
+            {
+              pattern: "^Initial: Validate Input$",
+              color: "#gray",
+            },
+            {
+              pattern: "^Initial: Get Customer Status$",
+              color: "#0070a3",
+            },
+            {
+              pattern: "^Do Fraud Check$",
+              color: "#gray",
+            },
+            {
+              pattern: "^Initial: Notify Fraudulent Customer$",
+              color: "#0070a3",
+            },
+            {
+              pattern: "^Order Shipping Failed$",
+              color: "#red",
+            },
+            {
+              pattern: "^.*$",
+              color: "#whitesmoke",
+              deadPath: true,
+            },
+          ],
+        },
+      };
+      const result = asl_to_puml(definition, style);
+      if (!result.isValid) {
+        // the generates are expected to work
+        // this provides better insight into why it failed
+        expect(result.message).toBeFalsy();
+      }
+      invariant(result.isValid, "expected transform to work");
+      const expected = fs.readFileSync(
+        path.join(__dirname, "pumls/aws-example-ship-order-deadpath.asl.puml"),
+        "utf-8"
+      );
+      expect(result.puml).toStrictEqual(expected);
+      // fs.writeFileSync(
+      //   path.join(__dirname, "pumls/aws-example-ship-order-deadpath.asl.puml"),
+      //   result.puml
+      // );
+    });
   });
 });

@@ -1,0 +1,80 @@
+@startuml
+hide empty description
+skinparam ArrowColor #black
+skinparam state {
+
+    BackgroundColor<<Choice>> #whitesmoke
+    FontColor<<Choice>> automatic
+
+    BackgroundColor<<aslFail>> #red
+    FontColor<<aslFail>> automatic
+
+    BackgroundColor<<aslMap>> #whitesmoke
+
+    BackgroundColor<<aslSucceed>> #green
+    FontColor<<aslSucceed>> automatic
+
+    BackgroundColor<<aslTask>> #lightblue
+    FontColor<<aslTask>> automatic
+
+    BackgroundColor<<aslWait>> #whitesmoke
+    FontColor<<aslWait>> automatic
+    BackgroundColor<<Compensate>> #orange
+    FontColor<<CustomStyle0>> automatic
+    BackgroundColor<<CustomStyle0>> #gray
+    FontColor<<CustomStyle1>> automatic
+    BackgroundColor<<CustomStyle1>> #0070a3
+    FontColor<<CustomStyle2>> automatic
+    BackgroundColor<<CustomStyle2>> #gray
+    FontColor<<CustomStyle3>> automatic
+    BackgroundColor<<CustomStyle3>> #0070a3
+    FontColor<<CustomStyle4>> automatic
+    BackgroundColor<<CustomStyle4>> #red
+    FontColor<<CustomStyle5>> gray
+    BackgroundColor<<CustomStyle5>> #whitesmoke
+}
+state "Initial: Validate Input" as state1<<Choice>>
+state "Initial: Get Customer Status" as state2<<CustomStyle1>>
+state "Do Fraud Check" as state3<<Choice>>
+state "Initial: Notify New Order" as state4<<CustomStyle5>>
+state "Reserve: Products" as state5<<aslMap>> {
+state "Reserve: Product" as state14<<CustomStyle5>>
+state "Choice" as state15<<Choice>>
+state "Successful" as state16<<CustomStyle5>>
+state "Reserve: Notify Delayed" as state17<<CustomStyle5>>
+state "Wait for availability" as state18<<CustomStyle5>>
+}
+state "Reserve: Notify Products \nReserved" as state6<<CustomStyle5>>
+state "Ship: Packaging and Shipping" as state7<<CustomStyle5>>
+state "Ship: Notify Successful \nShipping" as state8<<CustomStyle5>>
+state "Ship: Notify Packaging and \nShipping Failed" as state9<<CustomStyle5>>
+state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle3>>
+state "Order Shipping Failed" as state11<<CustomStyle4>>
+state "Order Shipped Successfully" as state12<<CustomStyle5>>
+state "Initial: Notify Invalid Input" as state13<<CustomStyle5>>
+[*] --> state1
+state1 -[#lightgray]-> state13
+state1 --> state2
+state2 --> state3
+state3 --> state10
+note on link
+fraudulent
+end note
+state3 -[#lightgray]-> state4
+state4 -[#lightgray]-> state5
+state5 -[#lightgray]-> state6
+state6 -[#lightgray]-> state7
+state7 -[#lightgray]-> state8
+state7 -[#lightgray]-> state9
+state8 -[#lightgray]-> state12
+state9 -[#lightgray]-> state11
+state10 -[#pink]-> state11
+state11 -[#pink]-> [*]
+state12 -[#lightgray]-> [*]
+state13 -[#lightgray]-> state11
+state14 -[#lightgray]-> state15
+state15 -[#lightgray]-> state17
+state15 -[#lightgray]-> state16
+state17 -[#lightgray]-> state18
+state18 -[#lightgray]-> state14
+@enduml

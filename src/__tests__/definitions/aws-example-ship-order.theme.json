@@ -11,6 +11,10 @@
         "color": "#0070a3"
       },
       {
+        "pattern": "(Initial: Validate Input)|(Do Fraud Check)|(^Choice$)",
+        "color": "#gray"
+      },
+      {
         "pattern": "^Initial: Notify New Order$",
         "color": "#0070a3"
       },
