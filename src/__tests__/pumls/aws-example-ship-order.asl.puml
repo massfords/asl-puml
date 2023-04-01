@@ -51,7 +51,7 @@ state "Initial: Validate Input" as state1<<Choice>>
 state "Initial: Get Customer Status" as state2<<CustomStyle0>>
 state "Do Fraud Check" as state3<<Choice>>
 state "Initial: Notify New Order" as state4<<CustomStyle2>>
-state "Reserve: Products" as state5<<aslMap>> {
+state "Reserve: Products" as state5<<CustomStyle3>> {
 state "Reserve: Product" as state14<<CustomStyle4>>
 state "Choice" as state15<<Choice>>
 state "Successful" as state16<<CustomStyle6>>
