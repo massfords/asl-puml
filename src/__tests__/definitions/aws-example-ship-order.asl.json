@@ -84,7 +84,7 @@
       "Reserve: Products": {
         "Type": "Map",
         "Next": "Reserve: Notify Products Reserved",
-        "Iterator": {
+        "ItemProcessor": {
           "StartAt": "Reserve: Product",
           "States": {
             "Reserve: Product": {
