@@ -1,7 +1,7 @@
 import { JSONPath } from "jsonpath-plus";
 import { AslStatesNode, AslStateType, StateHints, StateName } from "./types";
 import type { Config } from "./generated/config";
-import invariant from "tiny-invariant";
+import { must } from "./must";
 
 const compute_stereotype = (
   stateName: StateName,
@@ -53,7 +53,7 @@ export const build_state_map = (
   foundStates.forEach((states) => {
     Object.keys(states).forEach((stateName) => {
       const json = states[stateName];
-      invariant(json);
+      must(json, "failed to find state name", { stateName });
       state_map.set(stateName, {
         parent: null,
         stereotype: null,
@@ -74,7 +74,7 @@ export const build_state_map = (
       child_states.forEach((states) => {
         Object.keys(states).forEach((stateName) => {
           const child_value = state_map.get(stateName);
-          invariant(child_value);
+          must(child_value, "failed to find state name", { stateName });
           child_value.parent = key;
           const { stereotype, deadPath } = compute_stereotype(
             stateName,
@@ -104,7 +104,7 @@ export const build_state_map = (
         found_states.forEach((states) => {
           Object.keys(states).forEach((stateName) => {
             const child_value = state_map.get(stateName);
-            invariant(child_value);
+            must(child_value, "failed to find state name", { stateName });
             child_value.parent = key;
             child_value.branch = index + 1;
           });

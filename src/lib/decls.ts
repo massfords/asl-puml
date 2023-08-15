@@ -1,7 +1,7 @@
 import type { PumlBuilder, StateHints, StateName } from "./types";
 import wordwrap from "word-wrap";
 import type { Config } from "./generated/config";
-import invariant from "tiny-invariant";
+import { must } from "./must";
 
 export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
   const truncate = (str: string, maxWidth: number): string => {
@@ -81,13 +81,19 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
       // if there's no config, then the comment isn't rendered
       if (noteConfig) {
         const { comment, commentConfig } = noteConfig;
-        invariant(comment && commentConfig);
+        must(comment && commentConfig, "note config missing required fields", {
+          comment,
+          commentConfig,
+        });
         accum.lines.push(`note ${commentConfig.side}`);
         accum.lines.push(
           wordwrap(truncate(comment, 512), {
             width: commentConfig.width,
             trim: true,
           })
+            .split("\n")
+            .map((s) => `  ${s}`)
+            .join("\n")
         );
         accum.lines.push(`end note`);
       }
@@ -122,14 +128,14 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
     if (matches.length > 0) {
       // the logical header has matches, emit them
       const compositeStateLabel = compositeStates[pattern];
-      invariant(compositeStateLabel, "missing state label");
+      must(compositeStateLabel, "missing state label", { pattern });
       accum.lines.push(
         `state "${compositeStateLabel}" as compositeState${compositeStatesCounter} ##[dashed] {`
       );
       compositeStatesCounter += 1;
       matches.forEach((key) => {
         const value = state_map.get(key);
-        invariant(value);
+        must(value, "failed to find state name", { stateName: key });
         emit_decl(key, value, accum);
       });
       accum.lines.push("}");

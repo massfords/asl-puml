@@ -3,8 +3,8 @@ import fs from "fs";
 import path from "path";
 import { asl_to_puml } from "../index";
 import { aslValidator } from "../lib/validator";
-import invariant from "tiny-invariant";
 import { describe, expect } from "@jest/globals";
+import { must } from "../lib/must";
 
 describe("unit tests for generating puml diagrams", () => {
   const loadDefinition = (name: string): AslDefinition => {
@@ -18,7 +18,7 @@ describe("unit tests for generating puml diagrams", () => {
   const loadStyle = (name: string): UserSpecifiedConfig | null => {
     const dotAslJson = ".asl.json";
     const dotThemeJson = ".theme.json";
-    invariant(name.endsWith(dotAslJson), "invalid test file name");
+    must(name.endsWith(dotAslJson), "invalid test file name");
     const themeFileName = path.join(
       __dirname,
       "definitions",
@@ -60,7 +60,7 @@ describe("unit tests for generating puml diagrams", () => {
         // this provides better insight into why it failed
         expect(result.message).toBeFalsy();
       }
-      invariant(
+      must(
         result.isValid,
         `Unexpected error message in result: ${JSON.stringify(result)}`
       );
@@ -120,7 +120,7 @@ describe("unit tests for generating puml diagrams", () => {
         // this provides better insight into why it failed
         expect(result.message).toBeFalsy();
       }
-      invariant(result.isValid, "expected transform to work");
+      must(result.isValid, "expected transform to work");
       const expected = fs.readFileSync(
         path.join(__dirname, "pumls/aws-example-ship-order-deadpath.asl.puml"),
         "utf-8"

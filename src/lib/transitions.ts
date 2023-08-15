@@ -1,7 +1,7 @@
 import { JSONPath } from "jsonpath-plus";
 import type { AslChoiceTransitionNode, PumlBuilder, StateHints } from "./types";
 import type { LineConfig } from "./generated/config";
-import invariant from "tiny-invariant";
+import { must } from "./must";
 
 export const transitions: PumlBuilder = (definition, state_map, config) => {
   const catchTransitions = new Set();
@@ -63,7 +63,7 @@ end note`);
   };
   // emit the head --> start with
   const head = state_map.get(definition.StartAt);
-  invariant(head);
+  must(head, "missing StartAt value");
   lines.push(`[*] --> state${head.id}`);
   // emit transition for each state to its Next/Default
   state_map.forEach((hints) => {
@@ -75,7 +75,7 @@ end note`);
       });
       transitionNodes.forEach((target) => {
         const targetHint = state_map.get(target.Next);
-        invariant(targetHint);
+        must(targetHint, "Next state not found", { stateName: target.Next });
         let label = "";
         if (target.Comment) {
           label = target.Comment;
@@ -92,12 +92,17 @@ end note`);
       });
       if (hints.json.Default) {
         const targetHint = state_map.get(hints.json.Default);
-        invariant(targetHint);
+        must(targetHint, "Default state not found", {
+          stateName: hints.json.Default,
+        });
         emit_transition_with_color({ srcHint: hints, targetHint });
       }
     } else if (hints.json.Next) {
       const targetHint = state_map.get(hints.json.Next);
-      invariant(targetHint);
+      must(targetHint);
+      must(targetHint, "Next state not found", {
+        stateName: hints.json.Next,
+      });
       emit_transition_with_color({ srcHint: hints, targetHint });
     } else {
       emit_transition_with_color({ srcHint: hints });
@@ -116,7 +121,10 @@ end note`);
         }
         catchTransitions.add(catchKey);
         const catchTargetHints = state_map.get(katch.Next);
-        invariant(catchTargetHints);
+        must(catchTargetHints);
+        must(catchTargetHints, "Catch Next state not found", {
+          stateName: katch.Next,
+        });
         emit_transition_with_color({
           srcHint: hints,
           targetHint: catchTargetHints,
