@@ -69,7 +69,7 @@ export const build_state_map = (
       // update the child states
       const child_states: AslStatesNode[] = JSONPath({
         json: definition,
-        path: `$..['States']['${key}'].Iterator.States`,
+        path: `$..['States']['${key}'].[Iterator,ItemProcessor].States`,
       });
       child_states.forEach((states) => {
         Object.keys(states).forEach((stateName) => {
