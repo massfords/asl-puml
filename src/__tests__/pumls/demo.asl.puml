@@ -22,17 +22,17 @@ state "FulfillAsk" as state5<<aslTask>>
 state "FulfillFundAccount" as state6<<aslTask>>
 }
 state "Dispatch by type of item" as state1<<Choice>>
-state "PrepareFulfillWidgetRequest" as state2<<aslPass>>
-state "PrepareFulfillAskRequest" as state3<<aslPass>>
-state "MarkOrderAsFulfilled" as state7<<aslTask>>
 state "Error" as state8<<aslFail>>
-state "PublishOrderComplete" as state9<<aslTask>>
+state "MarkOrderAsFulfilled" as state7<<aslTask>>
+state "PrepareFulfillAskRequest" as state3<<aslPass>>
+state "PrepareFulfillWidgetRequest" as state2<<aslPass>>
 state "PublishCompensate" as state10<<Compensate>>
 note left
   order will be canceled,
   payments refunded, and
   inventory released
 end note
+state "PublishOrderComplete" as state9<<aslTask>>
 [*] --> state1
 state1 --> state2
 note on link

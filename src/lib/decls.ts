@@ -112,38 +112,49 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
 
   // emit the states that are logically grouped under a label
   const { compositeStates } = config.theme;
-  Object.keys(compositeStates).map((pattern) => {
-    const regex = new RegExp(pattern, "iu");
-    const matches: string[] = [];
-    state_map.forEach((_value, key) => {
-      if (accum.emitted.has(key)) {
-        return;
-      }
-      if (regex.test(key)) {
-        // this state matches a composite state regex
-        // it should be grouped under the logical header
-        matches.push(key);
+  Object.keys(compositeStates)
+    .sort()
+    .map((pattern) => {
+      const regex = new RegExp(pattern, "iu");
+      const matches: string[] = [];
+      state_map.forEach((_value, key) => {
+        if (accum.emitted.has(key)) {
+          return;
+        }
+        if (regex.test(key)) {
+          // this state matches a composite state regex
+          // it should be grouped under the logical header
+          matches.push(key);
+        }
+      });
+      if (matches.length > 0) {
+        // the logical header has matches, emit them
+        const compositeStateLabel = compositeStates[pattern];
+        must(compositeStateLabel, "missing state label", { pattern });
+        accum.lines.push(
+          `state "${compositeStateLabel}" as compositeState${compositeStatesCounter} ##[dashed] {`
+        );
+        compositeStatesCounter += 1;
+        matches.forEach((key) => {
+          const value = state_map.get(key);
+          must(value, "failed to find state name", { stateName: key });
+          emit_decl(key, value, accum);
+        });
+        accum.lines.push("}");
       }
     });
-    if (matches.length > 0) {
-      // the logical header has matches, emit them
-      const compositeStateLabel = compositeStates[pattern];
-      must(compositeStateLabel, "missing state label", { pattern });
-      accum.lines.push(
-        `state "${compositeStateLabel}" as compositeState${compositeStatesCounter} ##[dashed] {`
-      );
-      compositeStatesCounter += 1;
-      matches.forEach((key) => {
-        const value = state_map.get(key);
-        must(value, "failed to find state name", { stateName: key });
-        emit_decl(key, value, accum);
-      });
-      accum.lines.push("}");
-    }
-  });
 
-  state_map.forEach((value, key) => {
-    emit_decl(key, value, accum);
-  });
+  const sorted = Array.from(state_map.keys()).sort();
+  // emit containers first
+  sorted
+    .filter((key) => (state_map.get(key) as StateHints).parent === null)
+    .forEach((key) => {
+      emit_decl(key, state_map.get(key) as StateHints, accum);
+    });
+  sorted
+    .filter((key) => (state_map.get(key) as StateHints).parent !== null)
+    .forEach((key) => {
+      emit_decl(key, state_map.get(key) as StateHints, accum);
+    });
   return accum.lines.join("\n");
 };

@@ -15,6 +15,7 @@ skinparam state {
     FontColor<<aslWait>> automatic
     BackgroundColor<<Compensate>> #orange
 }
+state "Final State" as state2<<aslSucceed>>
 state "Parallel" as state1<<aslParallel>> {
 state "Branch 1" as state1_1 {
 state "Wait 20s" as state3<<aslWait>>
@@ -24,7 +25,6 @@ state "Pass" as state4<<aslPass>>
 state "Wait 10s" as state5<<aslWait>>
 }
 }
-state "Final State" as state2<<aslSucceed>>
 [*] --> state1
 state1 --> state2
 state1 -[bold,#orange]-> state2
