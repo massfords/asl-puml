@@ -57,9 +57,6 @@ state1 -[#lightgray]-> state13
 state1 --> state2
 state2 --> state3
 state3 --> state10
-note on link
-fraudulent
-end note
 state3 -[#lightgray]-> state4
 state4 -[#lightgray]-> state5
 state5 -[#lightgray]-> state6

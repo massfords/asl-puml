@@ -36,9 +36,6 @@ state5 --> state6
 state6 --> state7
 state7 --> state8
 state8 --> state6
-note on link
-RUNNING
-end note
 state8 --> state9
 state9 --> state10
 state10 --> [*]

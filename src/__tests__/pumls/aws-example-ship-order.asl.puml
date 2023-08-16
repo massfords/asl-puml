@@ -85,9 +85,6 @@ state12 --> [*]
 state13 -[#lightgray]-> state11
 state14 --> state15
 state15 --> state17
-note on link
-temporarily-unavailable
-end note
 state15 --> state16
 state17 --> state18
 state18 --> state14
