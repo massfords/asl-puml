@@ -101,6 +101,7 @@ describe("unit tests for generating puml diagrams", () => {
             {
               pattern: "^Initial: Notify Fraudulent Customer$",
               color: "#0070a3",
+              description: "<:warning:><:warning:><:white_check_mark:>",
             },
             {
               pattern: "^Order Shipping Failed$",

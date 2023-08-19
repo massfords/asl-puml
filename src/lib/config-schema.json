@@ -34,6 +34,9 @@
         },
         "deadPath": {
           "type": "boolean"
+        },
+        "description": {
+          "type": "string"
         }
       },
       "required": ["pattern", "color"],

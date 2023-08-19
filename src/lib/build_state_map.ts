@@ -54,11 +54,17 @@ export const build_state_map = (
     Object.keys(states).forEach((stateName) => {
       const json = states[stateName];
       must(json, "failed to find state name", { stateName });
+      const matchedStyle =
+        config.theme.stateStyles?.find((style) => {
+          const regex = new RegExp(style.pattern, "ui");
+          return regex.test(stateName);
+        }) ?? null;
       state_map.set(stateName, {
         parent: null,
         stereotype: null,
         id,
         json,
+        description: matchedStyle?.description ?? null,
       });
       id += 1;
     });
