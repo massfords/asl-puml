@@ -35,7 +35,7 @@ skinparam state {
 }
 state "Do Fraud Check" as state3<<Choice>>
 state "Initial: Get Customer Status" as state2<<CustomStyle1>>
-state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle3>>
+state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle3>>: <:warning:><:warning:><:white_check_mark:>
 state "Initial: Notify Invalid Input" as state13<<CustomStyle5>>
 state "Initial: Notify New Order" as state4<<CustomStyle5>>
 state "Initial: Validate Input" as state1<<Choice>>

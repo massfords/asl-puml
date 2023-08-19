@@ -70,4 +70,5 @@ export interface StateStyle {
   pattern: string;
   color: Color;
   deadPath?: boolean;
+  description?: string;
 }

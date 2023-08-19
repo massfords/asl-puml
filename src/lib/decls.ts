@@ -21,13 +21,17 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
       return;
     }
     accum.emitted.add(stateName);
+    const isContainer = ["Map", "Parallel"].indexOf(hints.json.Type) !== -1;
     const stateDecl = `state "${wordwrap(stateName, {
       indent: "",
       newline: "\\n",
       width: config.theme.wrapStateNamesAt ?? 30,
       trim: false,
-    })}" as state${hints.id}${hints?.stereotype ?? ""}`;
-    const isContainer = ["Map", "Parallel"].indexOf(hints.json.Type) !== -1;
+    })}" as state${hints.id}${hints?.stereotype ?? ""}${
+      // add the description to the state declaration if present and not a container.
+      // puml doesn't support descriptions on composite states
+      !isContainer && hints.description ? `: ${hints.description}` : ""
+    }`;
     const brace = isContainer ? " {" : "";
     accum.lines.push(`${stateDecl}${brace}`);
     if (isContainer) {
@@ -54,6 +58,11 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
         });
       }
       accum.lines.push("}");
+      if (hints?.description) {
+        accum.lines.push(`note left of state${hints.id}`);
+        accum.lines.push(`  ${hints.description}\n`);
+        accum.lines.push(`end note`);
+      }
     }
 
     // see if there's a note for the state

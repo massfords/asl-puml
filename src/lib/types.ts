@@ -15,6 +15,7 @@ export interface StateHints {
   id: number;
   json: StateJsonNode;
   deadPath?: boolean;
+  description?: string | null;
 }
 
 export type StateName = string;
