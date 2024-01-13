@@ -33,15 +33,10 @@ skinparam state {
     FontColor<<CustomStyle5>> gray
     BackgroundColor<<CustomStyle5>> #whitesmoke
 }
-state "Do Fraud Check" as state3<<Choice>>
-state "Initial: Get Customer Status" as state2<<CustomStyle1>>
-state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle3>>: <:warning:><:warning:><:white_check_mark:>
-state "Initial: Notify Invalid Input" as state13<<CustomStyle5>>
-state "Initial: Notify New Order" as state4<<CustomStyle5>>
 state "Initial: Validate Input" as state1<<Choice>>
-state "Order Shipped Successfully" as state12<<CustomStyle5>>
-state "Order Shipping Failed" as state11<<CustomStyle4>>
-state "Reserve: Notify Products \nReserved" as state6<<CustomStyle5>>
+state "Initial: Get Customer Status" as state2<<CustomStyle1>>
+state "Do Fraud Check" as state3<<Choice>>
+state "Initial: Notify New Order" as state4<<CustomStyle5>>
 state "Reserve: Products" as state5<<CustomStyle5>> {
 state "Reserve: Product" as state14<<CustomStyle5>>
 state "Choice" as state15<<Choice>>
@@ -49,9 +44,14 @@ state "Successful" as state16<<CustomStyle5>>
 state "Reserve: Notify Delayed" as state17<<CustomStyle5>>
 state "Wait for availability" as state18<<CustomStyle5>>
 }
-state "Ship: Notify Packaging and \nShipping Failed" as state9<<CustomStyle5>>
-state "Ship: Notify Successful \nShipping" as state8<<CustomStyle5>>
+state "Reserve: Notify Products \nReserved" as state6<<CustomStyle5>>
 state "Ship: Packaging and Shipping" as state7<<CustomStyle5>>
+state "Ship: Notify Successful \nShipping" as state8<<CustomStyle5>>
+state "Ship: Notify Packaging and \nShipping Failed" as state9<<CustomStyle5>>
+state "Initial: Notify Fraudulent \nCustomer" as state10<<CustomStyle3>>: <:warning:><:warning:><:white_check_mark:>
+state "Order Shipping Failed" as state11<<CustomStyle4>>
+state "Order Shipped Successfully" as state12<<CustomStyle5>>
+state "Initial: Notify Invalid Input" as state13<<CustomStyle5>>
 [*] --> state1
 state1 -[#lightgray]-> state13
 state1 --> state2

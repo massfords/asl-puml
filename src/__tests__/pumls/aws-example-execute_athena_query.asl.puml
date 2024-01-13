@@ -18,14 +18,14 @@ skinparam state {
 }
 state "confirm_service_name" as state1<<Choice>>
 state "default_service_name" as state2<<aslPass>>
-state "get_athena_execution_status" as state7<<aslTask>>
-state "get_athena_query" as state4<<aslPass>>
-state "get_query_results" as state9<<aslTask>>
 state "handle_input" as state3<<aslPass>>
-state "is_query_finished" as state8<<Choice>>
-state "prepare_output_success" as state10<<aslPass>>
+state "get_athena_query" as state4<<aslPass>>
 state "start_athena_query" as state5<<aslTask>>
 state "wait_to_query" as state6<<aslWait>>
+state "get_athena_execution_status" as state7<<aslTask>>
+state "is_query_finished" as state8<<Choice>>
+state "get_query_results" as state9<<aslTask>>
+state "prepare_output_success" as state10<<aslPass>>
 [*] --> state1
 state1 --> state3
 state1 --> state2

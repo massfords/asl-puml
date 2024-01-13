@@ -17,8 +17,6 @@ skinparam state {
     FontColor<<aslWait>> automatic
     BackgroundColor<<Compensate>> #orange
 }
-state "Error" as state2<<aslFail>>
-state "Final State" as state3<<aslSucceed>>
 state "Map" as state1<<aslMap>> {
 state "Parallel" as state4<<aslParallel>> {
 state "Branch 1" as state4_1 {
@@ -29,6 +27,8 @@ state "Wait 30s" as state6<<aslWait>>
 }
 }
 }
+state "Error" as state2<<aslFail>>
+state "Final State" as state3<<aslSucceed>>
 [*] --> state1
 state1 --> state3
 state1 -[#pink]-> state2

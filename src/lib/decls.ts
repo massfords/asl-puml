@@ -153,7 +153,11 @@ export const decls: PumlBuilder = (_definition, state_map, config: Config) => {
       }
     });
 
-  const sorted = Array.from(state_map.keys()).sort();
+  const sorted = Array.from(state_map.keys()).sort((a, b) => {
+    const stateA = state_map.get(a) as StateHints;
+    const stateB = state_map.get(b) as StateHints;
+    return stateA.id - stateB.id;
+  });
   // emit containers first
   sorted
     .filter((key) => (state_map.get(key) as StateHints).parent === null)
