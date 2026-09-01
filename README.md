@@ -26,14 +26,32 @@ $ asl-puml --help
 Amazon States Language to PUML
 
 Options:
-  -i --input <input>    path to input file
-  -o --output <output>  path to output dir
-  -c --config <config>  path to config file
-  -h, --help            display help for command
+  -i --input <input...>   path to one or more input files
+  -p --pattern <pattern>  glob pattern for matching input files
+  -o --output <output>    path to output dir
+  -c --config <config>    path to config file
+  -h, --help              display help for command
 ```
+
+Provide either `-i --input` (one or more files) or `-p --pattern` (a glob
+matching many files); the two options are mutually exclusive. Every input is
+processed. `-i` is variadic, so you can pass several files after one flag or
+repeat the flag:
+```bash
+asl-puml -i foo.asl.json bar.asl.json
+asl-puml -i foo.asl.json -i bar.asl.json
+```
+When using a pattern, quote it so your shell passes it through to `asl-puml`
+unexpanded:
+```bash
+asl-puml -p 'src/cdk/**/*.asl.json'
+asl-puml --pattern 'src/cdk/**/*.asl.json'
+```
+
 Return status:
-- `0` if diagram was generated
-- `1` if there was an error
+- `0` if all diagrams were generated
+- `1` if the arguments were invalid
+- `2` if one or more files failed to generate
 
 ## In your code
 ```javascript
