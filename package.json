@@ -6,11 +6,23 @@
   "bin": {
     "asl-puml": "./dist/asl-puml-cli.js"
   },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
-    "build": "npm run generate && npx tsc",
-    "generate": "rimraf src/generated && ./node_modules/.bin/json2ts -i src/lib/config-schema.json -o src/lib/generated/config.d.ts",
-    "lint": "npx eslint . --max-warnings 0 --ext ts",
-    "test": "npm run build && npx jest"
+    "clean": "rimraf dist",
+    "build": "npm run clean && npm run generate && tsc -p tsconfig.build.json",
+    "generate": "rimraf src/lib/generated && ./node_modules/.bin/json2ts -i src/lib/config-schema.json -o src/lib/generated/config.d.ts",
+    "lint": "eslint . --max-warnings 0 --ext ts",
+    "test": "npm run build && jest",
+    "preversion": "npm run lint && npm test",
+    "version": "npm run build && git add -A",
+    "postversion": "git push --follow-tags && gh release create v$npm_package_version --generate-notes",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run lint && npm test"
   },
   "repository": {
     "type": "git",
