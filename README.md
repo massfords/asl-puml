@@ -167,5 +167,39 @@ A user supplied file that conforms to the config-schema.json type can be provide
 - [ASL documentation on AWS website](http://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
 - [PlantUML state diagram documentation](https://plantuml.com/state-diagram)
 
+## Releasing
+
+Releases are driven by `npm version`. It bumps the version in `package.json`,
+commits, and tags `vX.Y.Z`; the lifecycle scripts wired into `package.json` do
+the rest:
+
+- `preversion` — runs `lint` and `test`, so a broken build can't be tagged
+- `version` — rebuilds `dist` and stages it into the version commit
+- `postversion` — pushes the commit and tag (`git push --follow-tags`), then
+  creates a GitHub Release with generated notes. Creating the Release triggers
+  the [publish workflow](./.github/workflows/npmpublish.yml), which builds,
+  lints, tests, and runs `npm publish`.
+
+So cutting a release is a single command from a clean `main`:
+
+```bash
+npm version patch   # bug fixes
+npm version minor   # new, backwards-compatible features
+npm version major   # breaking changes
+```
+
+Requirements:
+- Node `>=22.12` (see `engines` in `package.json`).
+- The [GitHub CLI](https://cli.github.com/) (`gh`) installed and authenticated,
+  used by `postversion` to create the Release.
+- A clean working tree on `main` — `npm version` refuses to run with uncommitted
+  changes.
+
+To preview exactly what will be published without releasing:
+
+```bash
+npm pack --dry-run
+```
+
 ## License
 See [LICENSE](./LICENSE).
